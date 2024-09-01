@@ -34,11 +34,35 @@ body {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjusts space between logo and buttons */
+    padding: 10px;
+}
+
+#logo {
+    max-height: 50px; /* Adjust size of the logo as needed */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adjust space between username and leaderboard icon */
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust space between profile icon and dark mode button */
+}
 
 /* Header and Links */
 header {
-    position: relative;
-    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 header a {

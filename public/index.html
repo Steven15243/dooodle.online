@@ -11,11 +11,19 @@
 <body>
     <div id="app">
         <header>
-            <h1>Online Doodle Website</h1>
-            <div id="username-display"></div>
-            <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
-            <a href="profile.html" id="profile-link" style="display:none;">👤</a>
-            <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
+            <div class="header-container">
+                <a href="index.html">
+                    <img src="uploads/doodle.online.png" alt="Doodle Logo" id="logo">
+                </a>
+                <div class="header-content">
+                    <div id="username-display"></div>
+                    <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
+                </div>
+                <div class="header-buttons">
+                    <a href="profile.html" id="profile-link" style="display:none;">👤</a>
+                    <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
+                </div>
+            </div>
         </header>
         
         <main>
