@@ -8,34 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
 
-    if (!token || !username) {
-        window.location.href = 'auth.html';  // Redirect to login if not authenticated
-    } else {
-        // Verify token with the server
-        fetch('/verify-token', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                // Token is valid, show user-specific content
-                document.getElementById('username-display').innerText = `Logged in as: ${username}`;
-                document.getElementById('profile-link').style.display = 'inline';
-                loadPrompt();  // Load the doodle prompt
-                loadDoodles();  // Load the user's doodles
-            } else {
-                throw new Error('Invalid token');
-            }
-        })
-        .catch(() => {
-            // Token is invalid or an error occurred, clear storage and redirect to login
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            window.location.href = 'auth.html';  // Redirect to login
-        });
-    }
-
     const brushSizeInput = document.getElementById('brush-size');
     const brushColorInput = document.getElementById('brush-color');
     const eraserButton = document.getElementById('eraser-button');

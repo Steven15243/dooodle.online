@@ -19,6 +19,26 @@
         </header>
         
         <main>
+            <div id="login-message">You must log in to create or view doodles.</div>
+            <div id="auth-buttons" class="centered">
+                <button id="show-register" class="auth-button">Sign Up</button>
+                <button id="show-login" class="auth-button">Login</button>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <h2>Register</h2>
+                <input type="text" id="register-username" placeholder="Username">
+                <input type="password" id="register-password" placeholder="Password">
+                <button type="button" id="register">Register</button>
+            </form>
+            
+            <form id="login-form" class="auth-form">
+                <h2>Login</h2>
+                <input type="text" id="login-username" placeholder="Username">
+                <input type="password" id="login-password" placeholder="Password">
+                <button type="button" id="login">Login</button>
+            </form>
+            
             <p id="prompt"></p>
             
             <div id="canvas-controls" class="centered">
