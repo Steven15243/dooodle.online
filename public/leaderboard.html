@@ -1,0 +1,46 @@
+<!-- leaderboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <h1>Leaderboard</h1>
+        <a href="index.html">Back to Doodles</a>
+    </header>
+    <main>
+        <section id="leaderboard">
+            <h2>Top Doodlers</h2>
+            <ul id="leaderboard-list"></ul>
+        </section>
+    </main>
+    <footer>
+        Made with ❤️ by Stefan
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/leaderboard')
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboardList = document.getElementById('leaderboard-list');
+                    leaderboardList.innerHTML = '';
+                    data.forEach(entry => {
+                        const listItem = document.createElement('li');
+                        listItem.innerText = `${entry.user.username} - ${entry.totalLikes} likes`;
+                        leaderboardList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching leaderboard:', error);
+                });
+        });
+    </script>
+</body>
+</html>

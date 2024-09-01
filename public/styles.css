@@ -1,0 +1,579 @@
+/* General Styles */
+:root {
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --header-color: #2c3e50;
+    --button-bg-color: #2c3e50;
+    --button-hover-bg-color: #34495e;
+    --like-button-bg-color: #e74c3c;
+    --like-button-hover-bg-color: #c0392b;
+    --footer-color: #333;
+    --brush-color: #000000; /* Default brush color */
+    --brush-size: 5px; /* Default brush size */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+#app {
+    max-width: 100%;
+    width: 90%;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Header and Links */
+header {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+header a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+header a#leaderboard-link, header a#profile-link {
+    font-size: 1.5em; /* Adjusts icon size */
+    vertical-align: middle; /* Aligns icons with the text */
+}
+
+header a#profile-link {
+    font-size: 1.5em; /* Adjusts icon size */
+    vertical-align: middle; /* Aligns icons with the text */
+}
+
+h1 {
+    color: var(--text-color);
+    font-size: 2.8em;
+    margin: 0;
+}
+
+/* Authentication Message and Button Styles */
+#username-display, #login-message {
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 15px;
+}
+
+.auth-button {
+    background-color: #2c3e50; /* Cool charcoal gray for modern look */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 0 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-button:hover {
+    background-color: #34495e;
+    transform: scale(1.05);
+}
+
+/* Authentication Form Styles */
+.auth-form {
+    display: none;
+    margin-bottom: 25px;
+}
+
+.auth-form h2 {
+    color: #2c3e50; /* Charcoal gray for modern accent color */
+    font-size: 1.6em;
+    margin-bottom: 15px;
+}
+
+.auth-form input {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin: 6px 0;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.auth-form button {
+    width: 100%;
+    background-color: #2c3e50; /* Charcoal gray for form buttons */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.auth-form button:hover {
+    background-color: #34495e;
+}
+
+/* Prompt and Canvas Container Styles */
+#prompt {
+    font-size: 1.3em;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+#canvas-container {
+    display: flex;
+    flex-direction: column; /* Stack controls above the canvas */
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+canvas {
+    border: 2px solid #2c3e50; /* Charcoal gray border for canvas */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Brush Size and Color Controls */
+#brush-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+#brush-controls label {
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+#brush-size, #brush-color {
+    margin-left: 10px;
+}
+
+#brush-size {
+    width: 60px;
+}
+
+#brush-color {
+    border: none;
+    height: 30px;
+    width: 60px;
+    cursor: pointer;
+}
+
+/* Centered Content Styles */
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Action Buttons Styles */
+#action-buttons button {
+    margin: 12px 12px;
+    background-color: #2c3e50; /* Charcoal gray for action buttons */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#action-buttons button:hover {
+    background-color: #34495e;
+    transform: scale(1.05);
+}
+
+/* Previous Doodles Section Styles */
+#previous-doodles {
+    margin-top: 35px;
+}
+
+#previous-doodles h2 {
+    font-size: 1.6em;
+    color: #2c3e50; /* Charcoal gray for section headers */
+    margin-bottom: 25px;
+}
+
+#doodles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+#doodles .doodle-item {
+    width: 130px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#doodles img {
+    width: 110px;
+    height: 110px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#doodles .username {
+    font-size: 1em;
+    color: #555;
+    margin-top: 8px;
+}
+
+/* Like Button Styles */
+.like-button {
+    background-color: #e74c3c; /* Red color for like button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center; /* Center emoji and text */
+    justify-content: center;
+}
+
+.like-button:before {
+    content: '❤️'; /* Heart emoji */
+    font-size: 20px;
+    margin-right: 8px; /* Space between emoji and text */
+}
+
+.like-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+    transform: scale(1.05);
+}
+
+.like-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.like-button:active {
+    background-color: #a93226;
+    transform: scale(0.98);
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 60px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 600px) {
+    #app {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+
+    .auth-button {
+        font-size: 0.9em;
+        padding: 10px 18px;
+        margin: 8px;
+    }
+
+    #doodles .doodle-item {
+        width: 110px;
+    }
+
+    footer {
+        font-size: 0.85em;
+    }
+
+    #brush-controls {
+        flex-direction: column;
+    }
+
+    #brush-size {
+        width: 100px;
+    }
+
+    #brush-color {
+        height: 40px;
+        width: 100px;
+    }
+}
+
+/* Profile Info and Edit Form Styles */
+#profile-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#profile-username {
+    font-size: 2.2em;
+    margin: 15px 0;
+}
+
+#profile-bio {
+    font-size: 1.3em;
+    color: #555;
+}
+
+#edit-profile-form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#edit-profile-form input,
+#edit-profile-form button {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+#edit-profile-form button {
+    background-color: #2c3e50; /* Charcoal gray for form buttons */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+/* Position the profile link at the top-right */
+#profile-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em; /* Adjust size as needed */
+    text-decoration: none;
+}
+
+/* Optionally add hover effect for the profile emoji */
+#profile-link:hover {
+    color: #2c3e50; /* Charcoal gray on hover */
+}
+
+/* Styles for the entire comments section */
+.comments-section {
+    border-top: 2px solid #e1e1e1;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ffffff; /* White background for comments */
+    border-radius: 8px;
+}
+
+/* Styles for individual comments */
+.comment-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    background-color: #fafafa; /* Light grey background for comments */
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+/* Styles for the comment form */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.comment-form input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.comment-form button {
+    padding: 10px;
+    background-color: #2c3e50; /* Charcoal gray for comment button */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comment-form button:hover {
+    background-color: #34495e;
+}
+
+/* General Styles for Comment Button */
+.comment-button {
+    padding: 12px 20px; /* Increased padding for better usability */
+    background-color: #e74c3c; /* Red for comment button */
+    color: #ffffff; /* Text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Larger font size for readability */
+    font-weight: bold; /* Make text bold */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Button Hover State */
+.comment-button:hover {
+    background-color: #c0392b; /* Darker shade of red on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Button Focus State */
+.comment-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Add custom focus outline */
+}
+
+body.dark-mode {
+    background-color: #121212; /* Dark background */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode #app {
+    background: #1e1e1e; /* Darker grey background */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode h1 {
+    color: #f5f5f5;
+}
+
+body.dark-mode a {
+    color: #bb86fc; /* Light purple for links */
+}
+
+body.dark-mode .auth-button,
+body.dark-mode #action-buttons button,
+body.dark-mode .like-button {
+    background-color: #333; /* Dark background */
+    color: #f5f5f5;
+    border: 1px solid #444;
+}
+
+body.dark-mode .auth-button:hover,
+body.dark-mode #action-buttons button:hover,
+body.dark-mode .like-button:hover {
+    background-color: #444; /* Slightly lighter for hover */
+}
+
+body.dark-mode canvas {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+}
+
+/* Dark Mode Styles for Comments Section */
+body.dark-mode .comments-section {
+    background-color: #1e1e1e; /* Dark grey background for comments section */
+    border-top: 2px solid #444; /* Dark border */
+}
+
+body.dark-mode .comment-item {
+    background-color: #333; /* Darker grey background for individual comments */
+    border-bottom: 1px solid #444; /* Darker border */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode .comment-form input[type="text"] {
+    background-color: #333; /* Dark input background */
+    border: 1px solid #555; /* Dark border for inputs */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode .comment-form button {
+    background-color: #444; /* Dark background for comment button */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode .comment-form button:hover {
+    background-color: #555; /* Slightly lighter for hover */
+}
+
+/* Dark Mode for General Comment Button */
+body.dark-mode .comment-button {
+    background-color: #555; /* Darker background for comment button */
+    color: #f5f5f5; /* Light text color */
+}
+
+body.dark-mode .comment-button:hover {
+    background-color: #666; /* Slightly lighter for hover */
+}
+
+/* Dark Mode Toggle Button Styles */
+#dark-mode-toggle {
+    position: absolute;
+    top: 20px;
+    left: 60px; /* Adjusted to move more to the right */
+    background-color: #000; /* Black background for light mode */
+    color: #fff; /* White icon */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 1000; /* Keep it on top of other elements */
+}
+
+/* Dark mode active, button switches to sun */
+#dark-mode-toggle.dark {
+    background-color: #fff; /* White background for dark mode */
+    color: #000; /* Black icon */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #dark-mode-toggle {
+        top: 10px;
+        left: 40px; /* Adjust position for smaller screens */
+        padding: 8px 12px;
+        font-size: 16px;
+    }
+}
+
+#eraser-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#eraser-icon {
+    width: 24px; /* Set desired size */
+    height: 24px; /* Set desired size */
+    vertical-align: middle;
+}
