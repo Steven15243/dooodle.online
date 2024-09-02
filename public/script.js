@@ -226,8 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function loadDoodles() {
-        fetch('/doodles', {
+    const sortTabs = document.querySelectorAll('.sort-tab');
+    sortTabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            const sortBy = e.target.getAttribute('data-sort');
+            loadDoodles(sortBy);
+        });
+    });
+
+    function loadDoodles(sortBy = 'most-recent') {
+        fetch(`/doodles?sortBy=${sortBy}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         }).then(response => response.json()).then(doodles => {
             const doodlesDiv = document.getElementById('doodles');
@@ -236,18 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const doodleItem = document.createElement('div');
                 doodleItem.classList.add('doodle-item');
 
-                // Adding username with a link to the profile
                 const usernameLabel = document.createElement('div');
                 usernameLabel.classList.add('username');
                 usernameLabel.innerHTML = `Created by: <a href="/profile/${doodle.username}">${doodle.username}</a>`;
                 doodleItem.appendChild(usernameLabel);
 
-                // Adding doodle image
                 const img = document.createElement('img');
                 img.src = doodle.doodleUrl;
                 doodleItem.appendChild(img);
 
-                // Adding like button
                 const likeButton = document.createElement('button');
                 likeButton.className = 'like-button';
                 likeButton.innerText = `Like (${doodle.likes || 0})`;
@@ -273,27 +278,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 doodleItem.appendChild(likeButton);
-                
-                // Add Comments button
-                const commentButton = document.createElement('button');
-                commentButton.innerText = 'Comments';
-                commentButton.classList.add('comment-button'); // Add a class for styling
-                commentButton.addEventListener('click', () => {
-                    loadComments(doodle._id);
-                });
-
-                doodleItem.appendChild(commentButton);
-
-                // Add section to display comments
-                const commentSection = document.createElement('div');
-                commentSection.classList.add('comments-section');
-                commentSection.id = `comments-${doodle._id}`;
-                doodleItem.appendChild(commentSection);
-
                 doodlesDiv.appendChild(doodleItem);
             });
         });
     }
+
+    loadDoodles()
 
     function loadPrompt() {
         fetch('/prompt', {

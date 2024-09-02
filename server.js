@@ -320,3 +320,37 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).send('Error fetching leaderboard');
     }
 });
+
+app.get('/doodles', (req, res) => {
+    const { sortBy } = req.query;
+
+    let sortCriteria;
+
+    switch (sortBy) {
+        case 'most-liked-today':
+            sortCriteria = { likes: -1, createdAt: -1 }; // Modify as needed for your date range logic
+            break;
+        case 'most-liked-week':
+            sortCriteria = { likes: -1, createdAt: -1 }; // Modify as needed for your date range logic
+            break;
+        case 'most-liked-month':
+            sortCriteria = { likes: -1, createdAt: -1 }; // Modify as needed for your date range logic
+            break;
+        case 'most-liked-year':
+            sortCriteria = { likes: -1, createdAt: -1 }; // Modify as needed for your date range logic
+            break;
+        case 'most-liked-ever':
+            sortCriteria = { likes: -1 }; // No date filter
+            break;
+        case 'most-recent':
+        default:
+            sortCriteria = { createdAt: -1 }; // Default sorting by most recent
+            break;
+    }
+
+    Doodle.find().sort(sortCriteria).then(doodles => {
+        res.json(doodles);
+    }).catch(err => {
+        res.status(500).json({ error: 'Failed to load doodles' });
+    });
+});
