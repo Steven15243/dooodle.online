@@ -1,14 +1,9 @@
-
+//characterscript.js
 function updateCharacter() {
     const bodyColor = document.querySelector('.color-options .selected')?.dataset.color || 'default_character.png';
     const eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
     const mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
 
-    const characterData = {
-        bodyColor,
-        eyes,
-        mouth
-    };
     const bodyColorImg = document.getElementById('body-color');
     bodyColorImg.src = `colours/${bodyColor}`;
 
@@ -67,46 +62,8 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-
-document.getElementById('save-character').addEventListener('click', () => {
-    const iframe = document.getElementById('character-creator-iframe');
-    const characterData = iframe.contentWindow.getCharacterData(); // Assuming getCharacterData() returns the final character image
-
-    fetch('/save-character', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ characterData })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Character saved successfully!');
-            modal.style.display = "none";
-            document.getElementById('profile-picture').src = data.characterUrl;
-        } else {
-            alert('Failed to save character');
-        }
-    })
-    .catch(error => console.error('Error:', error));
+ {
+            console.error('Error saving character:', error);
+        });
+    }, 'image/png');
 });
-
-const modal = document.getElementById("character-creator-modal");
-const btn = document.getElementById("open-character-creator");
-const span = document.getElementsByClassName("close")[0];
-
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}

@@ -320,36 +320,3 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).send('Error fetching leaderboard');
     }
 });
-
-// Character schema and model
-const characterSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    characterUrl: { type: String, required: true },
-    date: { type: Date, default: Date.now }
-});
-
-const Character = mongoose.model('Character', characterSchema);
-
-// Save character route
-app.post('/save-character', authenticate, async (req, res) => {
-    try {
-        const { characterData } = req.body;
-
-        // Assuming characterData is the URL or base64 string of the image
-        const user = await User.findById(req.userId);
-        const character = new Character({
-            userId: req.userId,
-            characterUrl: characterData
-        });
-        await character.save();
-
-        // Optionally, update the user's profile picture with the new character
-        user.profilePicture = character.characterUrl;
-        await user.save();
-
-        res.status(201).json({ success: true, characterUrl: character.characterUrl });
-    } catch (err) {
-        console.error('Error saving character:', err);
-        res.status(500).json({ success: false, message: 'Error saving character' });
-    }
-});
