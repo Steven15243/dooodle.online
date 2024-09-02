@@ -214,35 +214,44 @@ app.get('/doodles', authenticate, async (req, res) => {
 // User profile routes
 app.get('/profile/:username', authenticate, async (req, res) => {
     const username = req.params.username;
-    const user = await User.findOne({ username });
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
-    // Calculate total likes for the user
-    const totalLikes = await Doodle.aggregate([
-        { $match: { userId: user._id } },
-        { $group: { _id: null, totalLikes: { $sum: "$likes" } } }
-    ]);
+        // Get the character
+        const character = await Character.findOne({ userId: user._id }).sort({ date: -1 });
 
-    const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
+        // Calculate total likes for the user
+        const totalLikes = await Doodle.aggregate([
+            { $match: { userId: user._id } },
+            { $group: { _id: null, totalLikes: { $sum: "$likes" } } }
+        ]);
 
-    // If request is an API call, return JSON
-    if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
-        return res.json({
+        const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
+
+        if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+            return res.json({
+                username: user.username,
+                bio: user.bio,
+                likes: likes,
+                character: character // Include character data
+            });
+        }
+
+        res.render('profile', {
             username: user.username,
             bio: user.bio,
-            likes: likes
+            likes: likes,
+            character: character
         });
+    } catch (err) {
+        console.error('Error fetching profile:', err);
+        res.status(500).send('Error fetching profile');
     }
-
-    // Otherwise, render the EJS template
-    res.render('profile', {
-        username: user.username,
-        bio: user.bio,
-        likes: likes
-    });
 });
+
 
 
 
@@ -318,5 +327,36 @@ app.get('/leaderboard', async (req, res) => {
         res.json(leaderboard);
     } catch (err) {
         res.status(500).send('Error fetching leaderboard');
+    }
+});
+
+const characterSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    bodyColor: String,
+    eyes: String,
+    mouth: String,
+    date: { type: Date, default: Date.now }
+});
+
+const Character = mongoose.model('Character', characterSchema);
+
+// Save character data
+app.post('/save-character', authenticate, async (req, res) => {
+    try {
+        const { bodyColor, eyes, mouth } = req.body;
+        const userId = req.userId;
+
+        const character = new Character({
+            userId,
+            bodyColor,
+            eyes,
+            mouth
+        });
+
+        await character.save();
+        res.status(201).json({ success: true, character });
+    } catch (err) {
+        console.error('Error saving character:', err);
+        res.status(500).json({ success: false, message: 'Error saving character' });
     }
 });
