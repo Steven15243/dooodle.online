@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const brushColorInput = document.getElementById('brush-color');
     const eraserButton = document.getElementById('eraser-button');
     const eraserIcon = document.getElementById('eraser-icon');
+    const brushPreview = document.getElementById('brush-preview');
+
+    function updateBrushPreview() {
+        brushPreview.style.width = `${brushSize}px`;
+        brushPreview.style.height = `${brushSize}px`;
+        brushPreview.style.backgroundColor = brushColor;
+    }
+
+    brushSizeInput.addEventListener('input', updateBrushPreview);
+    brushColorInput.addEventListener('input', updateBrushPreview);
+
+    window.addEventListener('load', updateBrushPreview);
 
     // Set default brush size and color
     let brushSize = parseInt(brushSizeInput.value, 10);
@@ -37,17 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     eraserButton.addEventListener('click', () => {
         isEraserActive = !isEraserActive;
-
+    
         if (isEraserActive) {
-            context.strokeStyle = '#FFFFFF'; // Set to white (assuming white is the canvas background)
+            context.strokeStyle = '#FFFFFF';
+            context.lineWidth = brushSize; // Use brush size as eraser size
             eraserIcon.src = 'uploads/eraser-on-icon.png';
-            canvas.style.cursor = 'url("uploads/eraser-on-icon.png"), auto'; // Custom cursor
+            canvas.style.cursor = 'url("uploads/eraser-on-icon.png"), auto';
         } else {
             context.strokeStyle = brushColor;
+            context.lineWidth = brushSize;
             eraserIcon.src = 'uploads/eraser-off-icon.png';
-            canvas.style.cursor = 'crosshair'; // Default drawing cursor
+            canvas.style.cursor = 'crosshair';
         }
     });
+    
 
     function updateCoordinates(event) {
         const rect = canvas.getBoundingClientRect();
@@ -416,4 +431,13 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleButton.textContent = '🌑'; // Set moon icon if light mode
         }
     });
+
+    document.getElementById('download').addEventListener('click', () => {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'doodle.png';
+        link.click();
+    });
+    
 });
