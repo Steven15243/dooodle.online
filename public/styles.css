@@ -23,6 +23,7 @@ body {
     align-items: center;
     min-height: 100vh;
     text-align: center;
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 #logo {
@@ -52,7 +53,7 @@ body {
 
 #app {
     max-width: 100%;
-    width: 90%;
+    width: 90%; /* Adjust as needed */
     background: white;
     padding: 30px;
     border-radius: 15px;
