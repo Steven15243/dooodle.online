@@ -37,34 +37,8 @@ body {
 
 /* Header and Links */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-}
-
-.header-container {
-    display: flex;
-    align-items: center;
-}
-
-#logo {
-    height: 50px;
-    margin-right: 20px;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.header-right a, .header-right button {
-    font-size: 1.5em;
-    background: none;
-    border: none;
-    cursor: pointer;
+    position: relative;
+    margin-bottom: 25px;
 }
 
 header a {
