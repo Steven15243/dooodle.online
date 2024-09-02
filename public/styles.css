@@ -25,6 +25,12 @@ body {
     text-align: center;
 }
 
+#logo {
+    width: 400px; /* Adjust the width to your desired size */
+    height: auto; /* Keeps the aspect ratio */
+}
+
+
 #app {
     max-width: 100%;
     width: 90%;
