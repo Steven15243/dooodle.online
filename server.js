@@ -207,43 +207,8 @@ app.post('/doodle/:id/like', authenticate, async (req, res) => {
 });
 
 app.get('/doodles', authenticate, async (req, res) => {
-    const { sort = 'recent' } = req.query;
-
-    let filter = {};
-    let sortOption = { date: -1 }; // Default to most recent
-
-    switch (sort) {
-        case 'mostLikedToday':
-            filter.date = { $gte: getStartOf('today') };
-            sortOption = { likes: -1 };
-            break;
-        case 'mostLikedThisWeek':
-            filter.date = { $gte: getStartOf('week') };
-            sortOption = { likes: -1 };
-            break;
-        case 'mostLikedThisMonth':
-            filter.date = { $gte: getStartOf('month') };
-            sortOption = { likes: -1 };
-            break;
-        case 'mostLikedThisYear':
-            filter.date = { $gte: getStartOf('year') };
-            sortOption = { likes: -1 };
-            break;
-        case 'mostLikedAllTime':
-            sortOption = { likes: -1 };
-            break;
-        case 'recent':
-        default:
-            // Already set to default
-            break;
-    }
-
-    try {
-        const doodles = await Doodle.find(filter).sort(sortOption).exec();
-        res.json(doodles);
-    } catch (err) {
-        res.status(500).send('Error fetching doodles');
-    }
+    const doodles = await Doodle.find().populate('userId', 'username');
+    res.json(doodles);
 });
 
 // User profile routes
@@ -355,21 +320,3 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).send('Error fetching leaderboard');
     }
 });
-
-function getStartOf(period) {
-    const now = new Date();
-    switch (period) {
-        case 'today':
-            return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        case 'week':
-            const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
-            startOfWeek.setHours(0, 0, 0, 0);
-            return startOfWeek;
-        case 'month':
-            return new Date(now.getFullYear(), now.getMonth(), 1);
-        case 'year':
-            return new Date(now.getFullYear(), 0, 1);
-        default:
-            return new Date(0); // Return start of UNIX time for "all time"
-    }
-}

@@ -226,8 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function loadDoodles(sort = 'recent') {
-        fetch(`/doodles?sort=${sort}`, {
+    function loadDoodles() {
+        fetch('/doodles', {
             headers: { 'Authorization': `Bearer ${token}` }
         }).then(response => response.json()).then(doodles => {
             const doodlesDiv = document.getElementById('doodles');
@@ -235,23 +235,23 @@ document.addEventListener('DOMContentLoaded', () => {
             doodles.forEach(doodle => {
                 const doodleItem = document.createElement('div');
                 doodleItem.classList.add('doodle-item');
-    
+
                 // Adding username with a link to the profile
                 const usernameLabel = document.createElement('div');
                 usernameLabel.classList.add('username');
                 usernameLabel.innerHTML = `Created by: <a href="/profile/${doodle.username}">${doodle.username}</a>`;
                 doodleItem.appendChild(usernameLabel);
-    
+
                 // Adding doodle image
                 const img = document.createElement('img');
                 img.src = doodle.doodleUrl;
                 doodleItem.appendChild(img);
-    
+
                 // Adding like button
                 const likeButton = document.createElement('button');
                 likeButton.className = 'like-button';
                 likeButton.innerText = `Like (${doodle.likes || 0})`;
-    
+
                 likeButton.addEventListener('click', async () => {
                     try {
                         const response = await fetch(`/doodle/${doodle._id}/like`, {
@@ -271,37 +271,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Error liking doodle');
                     }
                 });
-    
+
                 doodleItem.appendChild(likeButton);
                 
                 // Add Comments button
                 const commentButton = document.createElement('button');
                 commentButton.innerText = 'Comments';
-                commentButton.classList.add('comment-button');
+                commentButton.classList.add('comment-button'); // Add a class for styling
                 commentButton.addEventListener('click', () => {
                     loadComments(doodle._id);
                 });
-    
+
                 doodleItem.appendChild(commentButton);
-    
+
                 // Add section to display comments
                 const commentSection = document.createElement('div');
                 commentSection.classList.add('comments-section');
                 commentSection.id = `comments-${doodle._id}`;
                 doodleItem.appendChild(commentSection);
-    
+
                 doodlesDiv.appendChild(doodleItem);
             });
         });
     }
-    
-    // Event listeners for sorting buttons
-    document.getElementById('sort-recent').addEventListener('click', () => loadDoodles('recent'));
-    document.getElementById('sort-most-liked-today').addEventListener('click', () => loadDoodles('mostLikedToday'));
-    document.getElementById('sort-most-liked-this-week').addEventListener('click', () => loadDoodles('mostLikedThisWeek'));
-    document.getElementById('sort-most-liked-this-month').addEventListener('click', () => loadDoodles('mostLikedThisMonth'));
-    document.getElementById('sort-most-liked-this-year').addEventListener('click', () => loadDoodles('mostLikedThisYear'));
-    document.getElementById('sort-most-liked-all-time').addEventListener('click', () => loadDoodles('mostLikedAllTime'));
 
     function loadPrompt() {
         fetch('/prompt', {
