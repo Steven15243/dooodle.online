@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="characterstyles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
-        <!-- Header Section -->
         <header>
             <img src="uploads/dooodle.online.png" alt="Doodle Logo" id="logo">
             <div id="username-display"></div>
             
-            <!-- Auth and Settings Buttons -->
+            <!-- Add a new container for the auth buttons and profile/dark mode buttons -->
             <div id="auth-and-settings">
-                <!-- Authentication Buttons -->
                 <div id="auth-buttons" class="centered">
                     <button id="show-register" class="auth-button">Sign Up</button>
                     <button id="show-login" class="auth-button">Login</button>
                 </div>
-                
-                <!-- Settings and Profile Links -->
+            
                 <div id="settings-buttons" class="centered">
                     <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
                     <a href="profile.html" id="profile-link" style="display:none;">👤</a>
@@ -32,89 +28,51 @@
             </div>
         </header>        
         
-        <!-- Main Content Section -->
         <main>
-            <!-- Login and Registration Messages -->
             <div id="login-message">You must log in to create or view doodles.</div>
             
-            <!-- Registration Form -->
-            <form id="register-form" class="auth-form" style="display:none;">
+            <form id="register-form" class="auth-form">
                 <h2>Register</h2>
                 <input type="text" id="register-username" placeholder="Username">
                 <input type="password" id="register-password" placeholder="Password">
                 <button type="button" id="register">Register</button>
             </form>
             
-            <!-- Login Form -->
-            <form id="login-form" class="auth-form" style="display:none;">
+            <form id="login-form" class="auth-form">
                 <h2>Login</h2>
                 <input type="text" id="login-username" placeholder="Username">
                 <input type="password" id="login-password" placeholder="Password">
                 <button type="button" id="login">Login</button>
             </form>
             
-            <!-- Daily Prompt Section -->
-            <p id="prompt" style="display:none;"></p>
+            <p id="prompt"></p>
             
-            <!-- Character Creation Section - Hidden by Default -->
-            <div id="character-creation-container" style="display:none;">
-                <h2>Create Your Character</h2>
-                <div class="character-preview">
-                    <div class="character-layers">
-                        <img id="body-color" src="default_character.png" alt="Body Color">
-                        <img id="eyes-layer" src="" alt="Eyes" style="display: none;">
-                        <img id="mouth-layer" src="" alt="Mouth" style="display: none;">
-                    </div>
-                </div>
-                <div class="controls">
-                    <div class="color-controls">
-                        <h3>Select Color:</h3>
-                        <div class="color-options"></div>
-                    </div>
-                    <div class="eye-controls">
-                        <h3>Select Eyes:</h3>
-                        <div class="eye-options"></div>
-                    </div>
-                    <div class="mouth-controls">
-                        <h3>Select Mouth:</h3>
-                        <div class="mouth-options"></div>
-                    </div>
-                    <button id="save-character">Save Character</button>
-                </div>
+            <div id="canvas-controls" class="centered">
+                <label for="brush-size">Brush Size:</label>
+                <input type="range" id="brush-size" min="1" max="50" value="5">
+                <label for="brush-color">Color:</label>
+                <input type="color" id="brush-color" value="#000000">
+                <button id="eraser-button">
+                    <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Eraser" />
+                </button>
             </div>
             
-            <!-- Doodle Drawing Section -->
-            <div id="doodle-creation-container" style="display:none;">
-                <h2>Draw Your Doodle</h2>
-                <div id="canvas-controls" class="centered">
-                    <label for="brush-size">Brush Size:</label>
-                    <input type="range" id="brush-size" min="1" max="50" value="5">
-                    <label for="brush-color">Color:</label>
-                    <input type="color" id="brush-color" value="#000000">
-                    <button id="eraser-button">
-                        <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Eraser" />
-                    </button>
-                </div>
-                
-                <div id="canvas-container">
-                    <canvas id="canvas" width="500" height="500"></canvas>
-                </div>
-                
-                <div id="action-buttons" class="centered">
-                    <button id="save">Save Doodle</button>
-                    <button id="undo">↶ Undo</button>
-                    <button id="redo">↷ Redo</button>
-                </div>
+            <div id="canvas-container">
+                <canvas id="canvas" width="500" height="500"></canvas>
             </div>
             
-            <!-- Previous Doodles Section -->
-            <section id="previous-doodles" style="display:none;">
+            <div id="action-buttons" class="centered">
+                <button id="save">Save Doodle</button>
+                <button id="undo">↶ Undo</button>
+                <button id="redo">↷ Redo</button>
+            </div>
+            
+            <section id="previous-doodles">
                 <h2>Previous Doodles</h2>
                 <div id="doodles"></div>
             </section>
         </main>
         
-        <!-- Footer Section -->
         <footer>
             Made with ❤️ by Stefan
             <a href="privacy-policy.html">Privacy Policy</a> | 
@@ -122,8 +80,6 @@
         </footer>
     </div>
 
-    <!-- Include Scripts -->
-    <script src="characterscript.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

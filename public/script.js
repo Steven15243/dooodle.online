@@ -416,41 +416,4 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleButton.textContent = '🌑'; // Set moon icon if light mode
         }
     });
-    function updateVisibility() {
-        if (token && username) {
-            document.getElementById('auth-buttons').style.display = 'none';
-            document.getElementById('username-display').innerText = `Logged in as: ${username}`;
-            document.getElementById('profile-link').style.display = 'inline';
-            document.getElementById('login-message').style.display = 'none';
-            document.getElementById('doodle-creation-container').style.display = 'block'; // Show doodle creation by default
-            document.getElementById('previous-doodles').style.display = 'block';
-        } else {
-            document.getElementById('auth-buttons').style.display = 'flex';
-            document.getElementById('profile-link').style.display = 'none';
-            document.getElementById('login-message').style.display = 'block';
-            document.getElementById('doodle-creation-container').style.display = 'none';
-            document.getElementById('previous-doodles').style.display = 'none';
-        }
-    }
-
-    updateVisibility();
-
-    // Handle showing the profile (character creation) when clicking on profile link
-    document.getElementById('profile-link').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('character-creation-container').style.display = 'block';
-        document.getElementById('doodle-creation-container').style.display = 'none';
-        document.getElementById('previous-doodles').style.display = 'none';
-    });
-
-    // Example event listeners for login and register buttons to control visibility
-    document.getElementById('show-login').addEventListener('click', () => {
-        document.getElementById('login-form').style.display = 'block';
-        document.getElementById('register-form').style.display = 'none';
-    });
-
-    document.getElementById('show-register').addEventListener('click', () => {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('register-form').style.display = 'block';
-    });
 });

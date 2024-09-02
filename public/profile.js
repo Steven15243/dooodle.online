@@ -48,27 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
             profileUsername.textContent = data.username;
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`; // Display total likes
-    
-            // Display character if it exists
-            if (data.character) {
-                displayCharacter(data.character);
-            }
         })
         .catch(error => {
             console.error('Error loading profile:', error);
             alert('Failed to load profile');
         });
     }
-    
-    function displayCharacter(character) {
-        const characterPreview = document.getElementById('character-preview');
-        characterPreview.innerHTML = `
-            <img src="colours/${character.bodyColor}" alt="Body Color">
-            <img src="eyes/${character.eyes}" alt="Eyes">
-            <img src="mouth/${character.mouth}" alt="Mouth">
-        `;
-    }
-    
 
     document.getElementById('save-profile').addEventListener('click', () => {
         const bio = editBioInput.value;
