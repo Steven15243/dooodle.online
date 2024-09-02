@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="characterstyles.css"> <!-- Link to character styles -->
+    <link rel="stylesheet" href="characterstyles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
+        <!-- Header Section -->
         <header>
             <img src="uploads/dooodle.online.png" alt="Doodle Logo" id="logo">
             <div id="username-display"></div>
             
-            <!-- Auth and settings buttons -->
+            <!-- Auth and Settings Buttons -->
             <div id="auth-and-settings">
+                <!-- Authentication Buttons -->
                 <div id="auth-buttons" class="centered">
                     <button id="show-register" class="auth-button">Sign Up</button>
                     <button id="show-login" class="auth-button">Login</button>
                 </div>
-            
+                
+                <!-- Settings and Profile Links -->
                 <div id="settings-buttons" class="centered">
                     <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
                     <a href="profile.html" id="profile-link" style="display:none;">👤</a>
@@ -29,27 +32,33 @@
             </div>
         </header>        
         
+        <!-- Main Content Section -->
         <main>
+            <!-- Login and Registration Messages -->
             <div id="login-message">You must log in to create or view doodles.</div>
             
-            <form id="register-form" class="auth-form">
+            <!-- Registration Form -->
+            <form id="register-form" class="auth-form" style="display:none;">
                 <h2>Register</h2>
                 <input type="text" id="register-username" placeholder="Username">
                 <input type="password" id="register-password" placeholder="Password">
                 <button type="button" id="register">Register</button>
             </form>
             
-            <form id="login-form" class="auth-form">
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" style="display:none;">
                 <h2>Login</h2>
                 <input type="text" id="login-username" placeholder="Username">
                 <input type="password" id="login-password" placeholder="Password">
                 <button type="button" id="login">Login</button>
             </form>
             
-            <p id="prompt"></p>
+            <!-- Daily Prompt Section -->
+            <p id="prompt" style="display:none;"></p>
             
-            <!-- Character creation section -->
-            <div class="container">
+            <!-- Character Creation Section - Hidden by Default -->
+            <div id="character-creation-container" style="display:none;">
+                <h2>Create Your Character</h2>
                 <div class="character-preview">
                     <div class="character-layers">
                         <img id="body-color" src="default_character.png" alt="Body Color">
@@ -74,33 +83,38 @@
                 </div>
             </div>
             
-            <!-- Doodle drawing section -->
-            <div id="canvas-controls" class="centered">
-                <label for="brush-size">Brush Size:</label>
-                <input type="range" id="brush-size" min="1" max="50" value="5">
-                <label for="brush-color">Color:</label>
-                <input type="color" id="brush-color" value="#000000">
-                <button id="eraser-button">
-                    <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Eraser" />
-                </button>
+            <!-- Doodle Drawing Section -->
+            <div id="doodle-creation-container" style="display:none;">
+                <h2>Draw Your Doodle</h2>
+                <div id="canvas-controls" class="centered">
+                    <label for="brush-size">Brush Size:</label>
+                    <input type="range" id="brush-size" min="1" max="50" value="5">
+                    <label for="brush-color">Color:</label>
+                    <input type="color" id="brush-color" value="#000000">
+                    <button id="eraser-button">
+                        <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Eraser" />
+                    </button>
+                </div>
+                
+                <div id="canvas-container">
+                    <canvas id="canvas" width="500" height="500"></canvas>
+                </div>
+                
+                <div id="action-buttons" class="centered">
+                    <button id="save">Save Doodle</button>
+                    <button id="undo">↶ Undo</button>
+                    <button id="redo">↷ Redo</button>
+                </div>
             </div>
             
-            <div id="canvas-container">
-                <canvas id="canvas" width="500" height="500"></canvas>
-            </div>
-            
-            <div id="action-buttons" class="centered">
-                <button id="save">Save Doodle</button>
-                <button id="undo">↶ Undo</button>
-                <button id="redo">↷ Redo</button>
-            </div>
-            
-            <section id="previous-doodles">
+            <!-- Previous Doodles Section -->
+            <section id="previous-doodles" style="display:none;">
                 <h2>Previous Doodles</h2>
                 <div id="doodles"></div>
             </section>
         </main>
         
+        <!-- Footer Section -->
         <footer>
             Made with ❤️ by Stefan
             <a href="privacy-policy.html">Privacy Policy</a> | 
@@ -108,8 +122,8 @@
         </footer>
     </div>
 
-    <!-- Include scripts -->
-    <script src="characterscript.js"></script> <!-- Character creation script -->
-    <script src="script.js"></script> <!-- Existing script for doodle functionality -->
+    <!-- Include Scripts -->
+    <script src="characterscript.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
