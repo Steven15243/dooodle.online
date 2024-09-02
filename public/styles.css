@@ -30,6 +30,25 @@ body {
     height: auto; /* Keeps the aspect ratio */
 }
 
+#auth-and-settings {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align items */
+    gap: 15px; /* Space between auth buttons and settings buttons */
+}
+
+#auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px; /* Space between auth buttons */
+}
+
+#settings-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between settings buttons */
+    margin-top: 15px; /* Space above the settings buttons */
+}
 
 #app {
     max-width: 100%;
@@ -53,14 +72,20 @@ header a {
     color: var(--text-color);
 }
 
-header a#leaderboard-link, header a#profile-link {
-    font-size: 1.5em; /* Adjusts icon size */
-    vertical-align: middle; /* Aligns icons with the text */
+#leaderboard-link,
+#profile-link,
+#dark-mode-toggle {
+    font-size: 1.5em; /* Adjust size as needed */
+    vertical-align: middle; /* Align with text */
+    background: none; /* Remove default background for links */
+    border: none; /* Remove default border for buttons */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: color 0.3s; /* Smooth color transition */
 }
 
+/* Position the profile link correctly */
 header a#profile-link {
-    font-size: 1.5em; /* Adjusts icon size */
-    vertical-align: middle; /* Aligns icons with the text */
+    display: inline-block;
 }
 
 h1 {
@@ -542,21 +567,13 @@ body.dark-mode .comment-button:hover {
 
 /* Dark Mode Toggle Button Styles */
 #dark-mode-toggle {
-    position: absolute;
-    top: 20px;
-    left: 60px; /* Adjusted to move more to the right */
     background-color: #000; /* Black background for light mode */
     color: #fff; /* White icon */
-    border: none;
-    padding: 10px 15px;
     border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s, color 0.3s;
-    z-index: 1000; /* Keep it on top of other elements */
+    padding: 10px 15px;
+    font-size: 1.5em; /* Adjust size as needed */
 }
 
-/* Dark mode active, button switches to sun */
 #dark-mode-toggle.dark {
     background-color: #fff; /* White background for dark mode */
     color: #000; /* Black icon */

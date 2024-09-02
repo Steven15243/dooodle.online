@@ -5,25 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle App</title>
     <link rel="stylesheet" href="styles.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270"
-    crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
         <header>
             <img src="uploads/dooodle.online.png" alt="Doodle Logo" id="logo">
             <div id="username-display"></div>
-            <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
-            <a href="profile.html" id="profile-link" style="display:none;">👤</a>
-            <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
+            
+            <!-- Add a new container for the auth buttons and profile/dark mode buttons -->
+            <div id="auth-and-settings">
+                <div id="auth-buttons" class="centered">
+                    <button id="show-register" class="auth-button">Sign Up</button>
+                    <button id="show-login" class="auth-button">Login</button>
+                </div>
+        
+                <div id="settings-buttons" class="centered">
+                    <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
+                    <a href="profile.html" id="profile-link" style="display:none;">👤</a>
+                    <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
+                </div>
+            </div>
         </header>
         
         <main>
             <div id="login-message">You must log in to create or view doodles.</div>
-            <div id="auth-buttons" class="centered">
-                <button id="show-register" class="auth-button">Sign Up</button>
-                <button id="show-login" class="auth-button">Login</button>
-            </div>
             
             <form id="register-form" class="auth-form">
                 <h2>Register</h2>
