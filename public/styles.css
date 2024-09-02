@@ -12,17 +12,12 @@
     --brush-size: 5px; /* Default brush size */
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-}
-
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,21 +52,19 @@ body {
 }
 
 #app {
+    max-width: 100%;
+    width: 90%; /* Adjust as needed */
     background: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    width: 90%;
-    max-width: 1200px; /* Set a max width to ensure content doesn't stretch too wide */
-    margin: 0 auto; /* Center the container horizontally */
 }
 
 /* Header and Links */
 header {
     position: relative;
     margin-bottom: 25px;
-    text-align: center; /* Center align the header content */
 }
 
 header a {
@@ -608,4 +601,45 @@ body.dark-mode .comment-button:hover {
     width: 24px; /* Set desired size */
     height: 24px; /* Set desired size */
     vertical-align: middle;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+iframe {
+    width: 100%;
+    height: 400px;
 }

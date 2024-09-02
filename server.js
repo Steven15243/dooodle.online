@@ -320,3 +320,29 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).send('Error fetching leaderboard');
     }
 });
+
+app.post('/save-character', (req, res) => {
+    const { characterData } = req.body;
+    const token = req.headers.authorization.split(' ')[1];
+
+    // Decode the token to get the user's information
+    jwt.verify(token, secretKey, (err, user) => {
+        if (err) return res.status(403).send({ success: false, message: 'Token is not valid' });
+
+        const fileName = `character-${user.username}.png`;
+        const filePath = path.join(__dirname, 'public', 'characters', fileName);
+
+        // Save character data (assuming it's a base64-encoded PNG)
+        const base64Data = characterData.replace(/^data:image\/png;base64,/, "");
+        fs.writeFile(filePath, base64Data, 'base64', (err) => {
+            if (err) return res.status(500).send({ success: false, message: 'Failed to save character' });
+
+            // Update user's profile picture URL in the database
+            User.findByIdAndUpdate(user._id, { profilePicture: `/characters/${fileName}` }, { new: true }, (err, updatedUser) => {
+                if (err) return res.status(500).send({ success: false, message: 'Failed to update profile' });
+
+                res.send({ success: true, characterUrl: updatedUser.profilePicture });
+            });
+        });
+    });
+});
