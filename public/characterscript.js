@@ -4,6 +4,11 @@ function updateCharacter() {
     const eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
     const mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
 
+    const characterData = {
+        bodyColor,
+        eyes,
+        mouth
+    };
     const bodyColorImg = document.getElementById('body-color');
     bodyColorImg.src = `colours/${bodyColor}`;
 
@@ -80,7 +85,6 @@ document.getElementById('save-character').addEventListener('click', () => {
         if (data.success) {
             alert('Character saved successfully!');
             modal.style.display = "none";
-            // Update user profile picture with the new character
             document.getElementById('profile-picture').src = data.characterUrl;
         } else {
             alert('Failed to save character');
