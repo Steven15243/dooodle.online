@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle App</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="characterstyles.css"> <!-- Link to character styles -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -13,7 +14,7 @@
             <img src="uploads/dooodle.online.png" alt="Doodle Logo" id="logo">
             <div id="username-display"></div>
             
-            <!-- Add a new container for the auth buttons and profile/dark mode buttons -->
+            <!-- Auth and settings buttons -->
             <div id="auth-and-settings">
                 <div id="auth-buttons" class="centered">
                     <button id="show-register" class="auth-button">Sign Up</button>
@@ -47,6 +48,33 @@
             
             <p id="prompt"></p>
             
+            <!-- Character creation section -->
+            <div class="container">
+                <div class="character-preview">
+                    <div class="character-layers">
+                        <img id="body-color" src="default_character.png" alt="Body Color">
+                        <img id="eyes-layer" src="" alt="Eyes" style="display: none;">
+                        <img id="mouth-layer" src="" alt="Mouth" style="display: none;">
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="color-controls">
+                        <h3>Select Color:</h3>
+                        <div class="color-options"></div>
+                    </div>
+                    <div class="eye-controls">
+                        <h3>Select Eyes:</h3>
+                        <div class="eye-options"></div>
+                    </div>
+                    <div class="mouth-controls">
+                        <h3>Select Mouth:</h3>
+                        <div class="mouth-options"></div>
+                    </div>
+                    <button id="save-character">Save Character</button>
+                </div>
+            </div>
+            
+            <!-- Doodle drawing section -->
             <div id="canvas-controls" class="centered">
                 <label for="brush-size">Brush Size:</label>
                 <input type="range" id="brush-size" min="1" max="50" value="5">
@@ -80,6 +108,8 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Include scripts -->
+    <script src="characterscript.js"></script> <!-- Character creation script -->
+    <script src="script.js"></script> <!-- Existing script for doodle functionality -->
 </body>
 </html>
