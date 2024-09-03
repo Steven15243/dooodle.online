@@ -1,4 +1,3 @@
-//script.js
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
@@ -211,11 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then(response => response.json()).then(data => {
             console.log(data);
             if (data.message === 'Login successful') {
-                if (data.profilePictureUrl) {
-                    document.getElementById('profile-picture').src = data.profilePictureUrl;
-                  } else {
-                    document.getElementById('profile-picture').src = '/assets/default-profile.png';
-                  }
                 alert('Login successful');
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('username', username);
@@ -425,95 +419,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.x-logo').addEventListener('click', function() {
         alert("You're being redirected to our X account!");
     });
-    const createCharacterButton = document.getElementById('create-character-button');
-  const characterModal = document.getElementById('character-modal');
-  const closeButton = document.querySelector('.close-button');
-  const characterCanvas = document.getElementById('character-canvas');
-  const characterCtx = characterCanvas.getContext('2d');
-  const colorSelect = document.getElementById('color-select');
-  const eyesSelect = document.getElementById('eyes-select');
-  const mouthSelect = document.getElementById('mouth-select');
-  const saveCharacterButton = document.getElementById('save-character-button');
-
-  // Open Modal
-  createCharacterButton.addEventListener('click', () => {
-    if (token && username) {
-      characterModal.style.display = 'block';
-      renderCharacter();
-    } else {
-      alert('Please log in to create a character.');
-    }
-  });
-
-  // Close Modal
-  closeButton.addEventListener('click', () => {
-    characterModal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (event) => {
-    if (event.target == characterModal) {
-      characterModal.style.display = 'none';
-    }
-  });
-
-  // Render Character based on selections
-  function renderCharacter() {
-    // Clear canvas
-    characterCtx.clearRect(0, 0, characterCanvas.width, characterCanvas.height);
-
-    // Draw base color
-    characterCtx.fillStyle = colorSelect.value;
-    characterCtx.fillRect(0, 0, characterCanvas.width, characterCanvas.height);
-
-    // Load and draw eyes
-    const eyesImage = new Image();
-    eyesImage.src = `/assets/eyes/${eyesSelect.value}`; // Ensure these paths are correct
-    eyesImage.onload = () => {
-      characterCtx.drawImage(eyesImage, 50, 50, 100, 50); // Adjust positioning as needed
-
-      // Load and draw mouth after eyes have loaded
-      const mouthImage = new Image();
-      mouthImage.src = `/assets/mouths/${mouthSelect.value}`;
-      mouthImage.onload = () => {
-        characterCtx.drawImage(mouthImage, 50, 120, 100, 50); // Adjust positioning as needed
-      };
-    };
-  }
-
-  // Update character when selections change
-  colorSelect.addEventListener('change', renderCharacter);
-  eyesSelect.addEventListener('change', renderCharacter);
-  mouthSelect.addEventListener('change', renderCharacter);
-
-  // Save and upload character as profile picture
-  saveCharacterButton.addEventListener('click', () => {
-    characterCanvas.toBlob((blob) => {
-      const formData = new FormData();
-      formData.append('profilePicture', blob, 'profile-picture.png');
-
-      fetch('/upload-profile-picture', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if(data.success) {
-          alert('Profile picture updated successfully!');
-          characterModal.style.display = 'none';
-          // Update profile picture display if applicable
-          document.getElementById('profile-picture').src = data.profilePictureUrl;
-        } else {
-          alert('Failed to update profile picture.');
-        }
-      })
-      .catch(error => {
-        console.error('Error uploading profile picture:', error);
-        alert('An error occurred while uploading your profile picture.');
-      });
-    }, 'image/png');
-  });
     
 });

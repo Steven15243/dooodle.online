@@ -72,16 +72,9 @@ document.getElementById('save-character').addEventListener('click', () => {
     const eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
     const mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
 
-    // Create an object to store character data
-    const characterData = {
-        bodyColor,
-        eyes,
-        mouth
-    };
-
+    const characterData = { bodyColor, eyes, mouth };
     const token = localStorage.getItem('token');
     
-    // Send the character data to the server
     fetch('/save-character', {
         method: 'POST',
         headers: {
@@ -94,6 +87,7 @@ document.getElementById('save-character').addEventListener('click', () => {
     .then(data => {
         if (data.success) {
             alert('Character saved successfully!');
+            window.location.href = `/profile/${localStorage.getItem('username')}`; // Redirect to profile
         } else {
             alert('Failed to save character');
         }

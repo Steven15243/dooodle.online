@@ -1,4 +1,3 @@
-// profile.js
 document.addEventListener('DOMContentLoaded', () => {
     const username = localStorage.getItem('username'); 
     const token = localStorage.getItem('token');
@@ -13,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileBio = document.getElementById('profile-bio');
     const profileLikes = document.getElementById('profile-likes'); // Element to display total likes
     const editBioInput = document.getElementById('edit-bio');
+    const profilePicture = document.getElementById('profile-picture'); // Element for the profile picture
 
     // Verify token with the server
     fetch('/verify-token', {
@@ -48,14 +48,53 @@ document.addEventListener('DOMContentLoaded', () => {
             profileUsername.textContent = data.username;
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`; // Display total likes
-            document.getElementById('profile-character').src = data.characterUrl || '/uploads/default-profile.png';
+
+            if (data.character) {
+                displayCharacter(data.character);
+            }
         })
         .catch(error => {
             console.error('Error loading profile:', error);
             alert('Failed to load profile');
         });
     }
-    
+
+    function displayCharacter(character) {
+        // Load the body color
+        const bodyColorImg = document.createElement('img');
+        bodyColorImg.src = `colours/${character.bodyColor}`;
+        bodyColorImg.style.position = 'absolute';
+        bodyColorImg.style.zIndex = '1';
+
+        // Load the eyes
+        const eyesImg = document.createElement('img');
+        if (character.eyes) {
+            eyesImg.src = `eyes/${character.eyes}`;
+            eyesImg.style.position = 'absolute';
+            eyesImg.style.zIndex = '2';
+        }
+
+        // Load the mouth
+        const mouthImg = document.createElement('img');
+        if (character.mouth) {
+            mouthImg.src = `mouth/${character.mouth}`;
+            mouthImg.style.position = 'absolute';
+            mouthImg.style.zIndex = '3';
+        }
+
+        // Clear the existing profile picture content
+        profilePicture.innerHTML = '';
+        profilePicture.style.position = 'relative';
+
+        // Append the images to form the full character
+        profilePicture.appendChild(bodyColorImg);
+        if (character.eyes) {
+            profilePicture.appendChild(eyesImg);
+        }
+        if (character.mouth) {
+            profilePicture.appendChild(mouthImg);
+        }
+    }
 
     document.getElementById('save-profile').addEventListener('click', () => {
         const bio = editBioInput.value;

@@ -1,6 +1,9 @@
+<!-- views/profile.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270"
+    crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= username %>'s Profile</title>
@@ -15,9 +18,8 @@
         <main>
             <div id="profile-info">
                 <h2>Username: <%= username %></h2>
-                <img id="profile-character" src="<%= characterUrl %>" alt="Profile Character" width="150" height="150">
                 <p>Bio: <%= bio %></p>
-                <p>Total Likes: <%= likes %></p>
+                <p>Total Likes: <%= likes %></p> <!-- Display total likes here -->
             </div>
         </main>
 

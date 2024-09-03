@@ -36,8 +36,9 @@ const upload = multer({ storage: storage });
 
 const app = express();
 const port = process.env.PORT || 3000;
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.SECRET_KEY; // Use environment variable
 
+// Middleware
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 app.use(session({
@@ -45,7 +46,6 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-
 
 app.set('view engine', 'ejs'); // Set EJS as the templating engine
 app.set('views', path.join(__dirname, 'views')); // Set the views directory
@@ -58,15 +58,19 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
 
+// User schema and model
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     bio: { type: String, default: '' },
-    profilePicture: { type: String, default: '/uploads/default-profile.png' }
+    character: {
+        bodyColor: String,
+        eyes: String,
+        mouth: String
+    }
 });
 
 const User = mongoose.model('User', userSchema);
-
 
 // Doodle schema and model
 const doodleSchema = new mongoose.Schema({
@@ -127,13 +131,8 @@ app.post('/login', async (req, res) => {
     }
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
     req.session.token = token;
-    res.json({ 
-        message: 'Login successful', 
-        token, 
-        profilePictureUrl: user.profilePicture 
-    });
+    res.json({ message: 'Login successful', token });
 });
-
 
 // Middleware to check authentication
 function authenticate(req, res, next) {
@@ -233,15 +232,12 @@ app.get('/profile/:username', authenticate, async (req, res) => {
 
     const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
 
-    const characterUrl = user.profilePicture || '/uploads/default-profile.png';
-
     // If request is an API call, return JSON
     if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         return res.json({
             username: user.username,
             bio: user.bio,
-            likes: likes,
-            characterUrl: characterUrl
+            likes: likes
         });
     }
 
@@ -249,11 +245,9 @@ app.get('/profile/:username', authenticate, async (req, res) => {
     res.render('profile', {
         username: user.username,
         bio: user.bio,
-        likes: likes,
-        characterUrl: characterUrl // Pass character URL to EJS template
+        likes: likes
     });
 });
-
 
 
 
@@ -332,49 +326,17 @@ app.get('/leaderboard', async (req, res) => {
     }
 });
 
-app.post('/upload-profile-picture', authenticate, profilePictureUpload.single('profilePicture'), async (req, res) => {
-    try {
-        const user = await User.findByIdAndUpdate(
-            req.userId,
-            { profilePicture: req.file.path },
-            { new: true }
-        );
-        res.json({ 
-            success: true, 
-            profilePictureUrl: user.profilePicture 
-        });
-    } catch (err) {
-        console.error('Error uploading profile picture:', err);
-        res.status(500).json({ success: false, message: 'Error uploading profile picture' });
-    }
-});
-
-const profilePictureStorage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'profile_pictures', // Separate folder for profile pictures
-        format: async () => 'png',
-        public_id: (req, file) => `profile-${req.userId}-${Date.now()}`
-    },
-});
-
-
-const profilePictureUpload = multer({ storage: profilePictureStorage });
-
 app.post('/save-character', authenticate, async (req, res) => {
     const { bodyColor, eyes, mouth } = req.body;
 
-    const characterUrl = `/composite-character/${bodyColor}-${eyes}-${mouth}.png`;
-
     try {
-        const user = await User.findByIdAndUpdate(
-            req.userId,
-            { profilePicture: characterUrl },
-            { new: true }
-        );
-        res.json({ success: true, characterUrl: user.profilePicture });
-    } catch (error) {
-        console.error('Error saving character:', error);
-        res.status(500).json({ success: false, message: 'Error saving character' });
+        const user = await User.findById(req.userId);
+        user.character = { bodyColor, eyes, mouth };
+        await user.save();
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error saving character:', err);
+        res.status(500).json({ success: false, error: 'Error saving character' });
     }
 });
