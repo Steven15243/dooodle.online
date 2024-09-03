@@ -344,6 +344,7 @@ app.post('/upload-character', authenticate, upload.single('file'), async (req, r
         const user = await User.findById(req.userId);
         user.characterUrl = req.file.path; // Assuming req.file.path contains the Cloudinary URL
         await user.save();
+        console.log("Character URL saved:", user.characterUrl); // Verify this log
 
         res.json({ success: true, url: req.file.path });
     } catch (err) {
