@@ -62,10 +62,12 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    bio: { type: String, default: '' }
+    bio: { type: String, default: '' },
+    profilePicture: { type: String, default: '/assets/default-profile.png' } // Default profile picture path
 });
 
 const User = mongoose.model('User', userSchema);
+
 
 // Doodle schema and model
 const doodleSchema = new mongoose.Schema({
@@ -126,8 +128,13 @@ app.post('/login', async (req, res) => {
     }
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
     req.session.token = token;
-    res.json({ message: 'Login successful', token });
+    res.json({ 
+        message: 'Login successful', 
+        token, 
+        profilePictureUrl: user.profilePicture 
+    });
 });
+
 
 // Middleware to check authentication
 function authenticate(req, res, next) {
@@ -227,12 +234,15 @@ app.get('/profile/:username', authenticate, async (req, res) => {
 
     const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
 
+    const characterUrl = user.profilePicture || '/uploads/default-profile.png';
+
     // If request is an API call, return JSON
     if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         return res.json({
             username: user.username,
             bio: user.bio,
-            likes: likes
+            likes: likes,
+            characterUrl: characterUrl
         });
     }
 
@@ -240,9 +250,11 @@ app.get('/profile/:username', authenticate, async (req, res) => {
     res.render('profile', {
         username: user.username,
         bio: user.bio,
-        likes: likes
+        likes: likes,
+        characterUrl: characterUrl // Pass character URL to EJS template
     });
 });
+
 
 
 
@@ -318,5 +330,55 @@ app.get('/leaderboard', async (req, res) => {
         res.json(leaderboard);
     } catch (err) {
         res.status(500).send('Error fetching leaderboard');
+    }
+});
+
+app.post('/upload-profile-picture', authenticate, profilePictureUpload.single('profilePicture'), async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.userId,
+            { profilePicture: req.file.path },
+            { new: true }
+        );
+        res.json({ 
+            success: true, 
+            profilePictureUrl: user.profilePicture 
+        });
+    } catch (err) {
+        console.error('Error uploading profile picture:', err);
+        res.status(500).json({ success: false, message: 'Error uploading profile picture' });
+    }
+});
+
+const profilePictureStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'profile_pictures', // Separate folder for profile pictures
+        format: async (req, file) => 'png',
+        public_id: (req, file) => `profile-${req.userId}-${Date.now()}`
+    },
+});
+
+
+const profilePictureUpload = multer({ storage: profilePictureStorage });
+
+app.post('/save-character', authenticate, async (req, res) => {
+    const { bodyColor, eyes, mouth } = req.body;
+
+    // Construct the character URL based on selected options
+    // Here we assume the front end saves and uploads the image to Cloudinary, 
+    // but if the images are combined server-side, this would differ.
+    const characterUrl = `/composite-character/${bodyColor}-${eyes}-${mouth}.png`;
+
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.userId,
+            { profilePicture: characterUrl },
+            { new: true }
+        );
+        res.json({ success: true, characterUrl: user.profilePicture });
+    } catch (error) {
+        console.error('Error saving character:', error);
+        res.status(500).json({ success: false, message: 'Error saving character' });
     }
 });

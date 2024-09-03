@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Creator</title>
+    <link rel="stylesheet" href="characterstyles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="character-preview">
+            <div class="character-layers">
+                <img id="body-color" src="default_character.png" alt="Body Color">
+                <img id="eyes-layer" src="" alt="Eyes" style="display: none;">
+                <img id="mouth-layer" src="" alt="Mouth" style="display: none;">
+            </div>
+        </div>
+        <div class="controls">
+            <div class="color-controls">
+                <h3>Select Color:</h3>
+                <div class="color-options"></div>
+            </div>
+            <div class="eye-controls">
+                <h3>Select Eyes:</h3>
+                <div class="eye-options"></div>
+            </div>
+            <div class="mouth-controls">
+                <h3>Select Mouth:</h3>
+                <div class="mouth-options"></div>
+            </div>
+            <button id="save-character">Save Character</button>
+        </div>
+    </div>
+    <script src="characterscript.js"></script>
+</body>
+</html>
+ 

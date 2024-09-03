@@ -24,9 +24,43 @@
                     <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
                     <a href="profile.html" id="profile-link" style="display:none;">👤</a>
                     <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
+                    <button id="create-character-button">Create Character</button>
                 </div>
             </div>
-        </header>        
+        </header>   
+        <!-- Character Creation Modal -->
+        <div id="character-modal" class="modal">
+            <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Create Your Character</h2>
+            <canvas id="character-canvas" width="200" height="200"></canvas>
+            <div class="controls">
+                <label for="color-select">Color:</label>
+                <select id="color-select">
+                <option value="#FFD700">Gold</option>
+                <option value="#00FFFF">Cyan</option>
+                <option value="#FF69B4">Pink</option>
+                <!-- Add more colors as needed -->
+                </select>
+        
+                <label for="eyes-select">Eyes:</label>
+                <select id="eyes-select">
+                <option value="eye1.png">Eye Type 1</option>
+                <option value="eye2.png">Eye Type 2</option>
+                <!-- Add more eye options as needed -->
+                </select>
+        
+                <label for="mouth-select">Mouth:</label>
+                <select id="mouth-select">
+                <option value="mouth1.png">Mouth Type 1</option>
+                <option value="mouth2.png">Mouth Type 2</option>
+                <!-- Add more mouth options as needed -->
+                </select>
+        
+                <button id="save-character-button">Save as Profile Picture</button>
+            </div>
+            </div>
+        </div>     
         
         <main>
             <div id="login-message">You must log in to create or view doodles.</div>

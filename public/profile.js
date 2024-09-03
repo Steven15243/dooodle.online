@@ -48,12 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
             profileUsername.textContent = data.username;
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`; // Display total likes
+            document.getElementById('profile-character').src = data.characterUrl || '/uploads/default-profile.png';
         })
         .catch(error => {
             console.error('Error loading profile:', error);
             alert('Failed to load profile');
         });
     }
+    
 
     document.getElementById('save-profile').addEventListener('click', () => {
         const bio = editBioInput.value;
