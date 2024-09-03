@@ -50,21 +50,24 @@ document.addEventListener('DOMContentLoaded', () => {
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`;
     
-            // Check if the character URL is available
             if (data.characterUrl) {
+                console.log("Character URL:", data.characterUrl); // Log the URL to ensure it's correct
                 const profilePicture = document.getElementById('profile-picture');
                 profilePicture.innerHTML = ''; // Clear the existing content
                 const img = document.createElement('img');
-                img.src = data.characterUrl; // Use the Cloudinary URL
+                img.src = data.characterUrl;
                 img.alt = 'Profile Picture';
                 profilePicture.appendChild(img);
+            } else {
+                console.log("No character URL found.");
             }
         })
         .catch(error => {
             console.error('Error loading profile:', error);
             alert('Failed to load profile');
         });
-    }    
+    }
+    
     
 
     function displayCharacter(character) {
