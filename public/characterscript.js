@@ -7,6 +7,11 @@ function updateCharacter() {
     const bodyColorImg = document.getElementById('body-color');
     bodyColorImg.src = `colours/${bodyColor}`;
 
+    const canvas = document.createElement('canvas');
+    canvas.width = 200; // Set the canvas size as per your character image size
+    canvas.height = 200;
+    const ctx = canvas.getContext('2d');
+
     const eyesLayer = document.getElementById('eyes-layer');
     if (eyes) {
         eyesLayer.src = `eyes/${eyes}`;
@@ -94,3 +99,52 @@ document.getElementById('save-character').addEventListener('click', () => {
     })
     .catch(error => console.error('Error:', error));
 });
+
+// Load and draw each image layer onto the canvas
+const bodyColorImg = new Image();
+bodyColorImg.src = `colours/${bodyColor}`;
+bodyColorImg.onload = () => {
+    ctx.drawImage(bodyColorImg, 0, 0, canvas.width, canvas.height);
+
+    if (eyes) {
+        const eyesImg = new Image();
+        eyesImg.src = `eyes/${eyes}`;
+        eyesImg.onload = () => {
+            ctx.drawImage(eyesImg, 0, 0, canvas.width, canvas.height);
+
+            if (mouth) {
+                const mouthImg = new Image();
+                mouthImg.src = `mouth/${mouth}`;
+                mouthImg.onload = () => {
+                    ctx.drawImage(mouthImg, 0, 0, canvas.width, canvas.height);
+
+                    // Convert canvas to a Blob and upload to Cloudinary
+                    canvas.toBlob((blob) => {
+                        const formData = new FormData();
+                        formData.append('file', blob, 'character.png');
+
+                        const token = localStorage.getItem('token');
+
+                        fetch('/upload-character', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Character saved successfully!');
+                                window.location.href = `/profile/${localStorage.getItem('username')}`;
+                            } else {
+                                alert('Failed to save character');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }, 'image/png');
+                };
+            }
+        };
+    }
+};

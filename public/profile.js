@@ -49,9 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
             profileUsername.textContent = data.username;
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`;
-
-            if (data.character) {
-                displayCharacter(data.character);
+    
+            // If there's a character URL, set it as the profile picture
+            if (data.characterUrl) {
+                const profilePicture = document.getElementById('profile-picture');
+                profilePicture.innerHTML = ''; // Clear the existing content
+                const img = document.createElement('img');
+                img.src = data.characterUrl;
+                img.alt = 'Profile Picture';
+                profilePicture.appendChild(img);
             }
         })
         .catch(error => {
@@ -59,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Failed to load profile');
         });
     }
+    
 
     function displayCharacter(character) {
         const bodyColorImg = document.createElement('img');
