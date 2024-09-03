@@ -46,10 +46,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+
+app.set('view engine', 'ejs'); // Set EJS as the templating engine
+app.set('views', path.join(__dirname, 'views')); // Set the views directory
+
+// Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
@@ -348,7 +352,7 @@ app.post('/upload-profile-picture', authenticate, profilePictureUpload.single('p
 const profilePictureStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'profile_pictures',
+        folder: 'profile_pictures', // Separate folder for profile pictures
         format: async () => 'png',
         public_id: (req, file) => `profile-${req.userId}-${Date.now()}`
     },
