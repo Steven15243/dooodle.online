@@ -1,16 +1,15 @@
-// Function to update the character preview based on selected options
+// Declare these variables globally to be accessible throughout the script
+let bodyColor = 'default_character.png';
+let eyes = '';
+let mouth = '';
+
 function updateCharacter() {
-    const bodyColor = document.querySelector('.color-options .selected')?.dataset.color || 'default_character.png';
-    const eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
-    const mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
+    bodyColor = document.querySelector('.color-options .selected')?.dataset.color || 'default_character.png';
+    eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
+    mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
 
     const bodyColorImg = document.getElementById('body-color');
     bodyColorImg.src = `colours/${bodyColor}`;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 200; // Set the canvas size as per your character image size
-    canvas.height = 200;
-    const ctx = canvas.getContext('2d');
 
     const eyesLayer = document.getElementById('eyes-layer');
     if (eyes) {
@@ -29,7 +28,6 @@ function updateCharacter() {
     }
 }
 
-// Function to create options dynamically based on the type (color, eye, mouth)
 function createOptions(type, folder) {
     const container = document.querySelector(`.${type}-controls .${type}-options`);
     const files = [];
@@ -59,7 +57,6 @@ function createOptions(type, folder) {
     });
 }
 
-// Function to initialize character creation options
 function init() {
     createOptions('color', 'colours');
     createOptions('eye', 'eyes');
@@ -68,15 +65,9 @@ function init() {
     updateCharacter();
 }
 
-// Event listener to initialize the character creation process when DOM content is loaded
 document.addEventListener('DOMContentLoaded', init);
 
-// Function to handle saving the character to the user's profile
 document.getElementById('save-character').addEventListener('click', () => {
-    const bodyColor = document.querySelector('.color-options .selected')?.dataset.color || 'default_character.png';
-    const eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
-    const mouth = document.querySelector('.mouth-options .selected')?.dataset.mouth || '';
-
     const characterData = { bodyColor, eyes, mouth };
     const token = localStorage.getItem('token');
     
@@ -92,7 +83,7 @@ document.getElementById('save-character').addEventListener('click', () => {
     .then(data => {
         if (data.success) {
             alert('Character saved successfully!');
-            window.location.href = `/profile/${localStorage.getItem('username')}`; // Redirect to profile
+            window.location.href = `/profile/${localStorage.getItem('username')}`;
         } else {
             alert('Failed to save character');
         }
@@ -101,6 +92,11 @@ document.getElementById('save-character').addEventListener('click', () => {
 });
 
 // Load and draw each image layer onto the canvas
+const canvas = document.createElement('canvas');
+canvas.width = 200; 
+canvas.height = 200;
+const ctx = canvas.getContext('2d');
+
 const bodyColorImg = new Image();
 bodyColorImg.src = `colours/${bodyColor}`;
 bodyColorImg.onload = () => {
@@ -118,7 +114,6 @@ bodyColorImg.onload = () => {
                 mouthImg.onload = () => {
                     ctx.drawImage(mouthImg, 0, 0, canvas.width, canvas.height);
 
-                    // Convert canvas to a Blob and upload to Cloudinary
                     canvas.toBlob((blob) => {
                         const formData = new FormData();
                         formData.append('file', blob, 'character.png');
