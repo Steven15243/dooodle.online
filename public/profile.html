@@ -6,34 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="styles.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270"
-     crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="app">
-        <header>
-            <h1>User Profile</h1>
-            <div id="username-display"></div>
-        </header>
+    <div class="profile-container">
+        <h1 id="profile-username">Username</h1>
+        <div id="profile-picture" style="position: relative; width: 200px; height: 200px;">
+            <img src="default_character.png" alt="Profile Picture">
+        </div>
+        <p id="profile-bio">Bio</p>
+        <p id="profile-likes">Total Likes: 0</p>
 
-        <main>
-            <div id="profile-info">
-                <h2 id="profile-username"></h2>
-                <p id="profile-bio"></p>
-                <p id="profile-likes"></p>
-                <img id="profile-picture" src="default_character.png" alt="Profile Picture">
-            </div>
+        <!-- Add a button to create a character -->
+        <button id="create-character-button">Create Character</button>
 
-            <div id="edit-profile-form">
-                <h2>Edit Profile</h2>
-                <input type="text" id="edit-bio" placeholder="Enter your bio">
-                <button type="button" id="save-profile">Save Profile</button>
-            </div>
-        </main>
-
-        <footer>
-            <a href="/">Back to Home</a>
-        </footer>
+        <div class="edit-bio">
+            <textarea id="edit-bio" placeholder="Edit your bio..."></textarea>
+            <button id="save-profile">Save Profile</button>
+        </div>
     </div>
 
     <script src="profile.js"></script>

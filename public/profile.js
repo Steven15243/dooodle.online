@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const profileUsername = document.getElementById('profile-username');
     const profileBio = document.getElementById('profile-bio');
-    const profileLikes = document.getElementById('profile-likes'); // Element to display total likes
+    const profileLikes = document.getElementById('profile-likes'); 
     const editBioInput = document.getElementById('edit-bio');
-    const profilePicture = document.getElementById('profile-picture'); // Element for the profile picture
+    const profilePicture = document.getElementById('profile-picture');
+    const createCharacterButton = document.getElementById('create-character-button'); // Reference to the new button
 
     // Verify token with the server
     fetch('/verify-token', {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/profile/${username}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'X-Requested-With': 'XMLHttpRequest' // Ensure this is recognized as an AJAX request
+                'X-Requested-With': 'XMLHttpRequest'
             }
         })
         .then(response => {
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             profileUsername.textContent = data.username;
             profileBio.textContent = data.bio;
-            profileLikes.textContent = `Total Likes: ${data.likes}`; // Display total likes
+            profileLikes.textContent = `Total Likes: ${data.likes}`;
 
             if (data.character) {
                 displayCharacter(data.character);
@@ -60,13 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCharacter(character) {
-        // Load the body color
         const bodyColorImg = document.createElement('img');
         bodyColorImg.src = `colours/${character.bodyColor}`;
         bodyColorImg.style.position = 'absolute';
         bodyColorImg.style.zIndex = '1';
 
-        // Load the eyes
         const eyesImg = document.createElement('img');
         if (character.eyes) {
             eyesImg.src = `eyes/${character.eyes}`;
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
             eyesImg.style.zIndex = '2';
         }
 
-        // Load the mouth
         const mouthImg = document.createElement('img');
         if (character.mouth) {
             mouthImg.src = `mouth/${character.mouth}`;
@@ -82,11 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
             mouthImg.style.zIndex = '3';
         }
 
-        // Clear the existing profile picture content
         profilePicture.innerHTML = '';
         profilePicture.style.position = 'relative';
-
-        // Append the images to form the full character
         profilePicture.appendChild(bodyColorImg);
         if (character.eyes) {
             profilePicture.appendChild(eyesImg);
@@ -95,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
             profilePicture.appendChild(mouthImg);
         }
     }
+
+    // Navigate to the character creation page when the button is clicked
+    createCharacterButton.addEventListener('click', () => {
+        window.location.href = '/character.html';
+    });
 
     document.getElementById('save-profile').addEventListener('click', () => {
         const bio = editBioInput.value;
