@@ -228,6 +228,13 @@ app.get('/profile/:username', authenticate, async (req, res) => {
 
     const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
 
+    res.render('profile', {
+        username: user.username,
+        bio: user.bio,
+        likes: likes,
+        characterUrl: user.characterUrl // Add this line
+    });
+
     // If request is an API call, return JSON
     if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         return res.json({

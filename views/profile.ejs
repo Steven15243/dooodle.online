@@ -19,7 +19,12 @@
             <div id="profile-info">
                 <h2>Username: <%= username %></h2>
                 <p>Bio: <%= bio %></p>
-                <p>Total Likes: <%= likes %></p> <!-- Display total likes here -->
+                <p>Total Likes: <%= likes %></p>
+                <% if (characterUrl) { %>
+                    <div id="character-preview">
+                        <img src="<%= characterUrl %>" alt="Character">
+                    </div>
+                <% } %>
             </div>
         </main>
 
