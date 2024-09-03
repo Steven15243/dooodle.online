@@ -622,3 +622,14 @@ body.dark-mode .comment-button:hover {
 .x-logo:hover {
     transform: scale(1.1);
 }
+
+/* profile.css or styles.css */
+
+#profile-picture img {
+    max-width: 100%; /* Ensures the image doesn’t exceed its container’s width */
+    height: auto; /* Maintains the aspect ratio of the image */
+    width: 200px; /* Or set a specific width, e.g., 200px */
+    max-height: 200px; /* Ensures the image doesn’t exceed a maximum height */
+    display: block; /* Ensures the image is displayed as a block element */
+    margin: 0 auto; /* Center the image horizontally if needed */
+}
