@@ -50,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
             profileBio.textContent = data.bio;
             profileLikes.textContent = `Total Likes: ${data.likes}`;
     
-            // If there's a character URL, set it as the profile picture
+            // Check if the character URL is available
             if (data.characterUrl) {
                 const profilePicture = document.getElementById('profile-picture');
                 profilePicture.innerHTML = ''; // Clear the existing content
                 const img = document.createElement('img');
-                img.src = data.characterUrl;
+                img.src = data.characterUrl; // Use the Cloudinary URL
                 img.alt = 'Profile Picture';
                 profilePicture.appendChild(img);
             }
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error loading profile:', error);
             alert('Failed to load profile');
         });
-    }
+    }    
     
 
     function displayCharacter(character) {

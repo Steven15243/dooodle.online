@@ -63,11 +63,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     bio: { type: String, default: '' },
-    character: {
-        bodyColor: String,
-        eyes: String,
-        mouth: String
-    }
+    characterUrl: { type: String } // Add this field to store the Cloudinary URL
 });
 
 const User = mongoose.model('User', userSchema);
