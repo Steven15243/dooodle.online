@@ -322,19 +322,29 @@ app.post('/save-character', authenticate, async (req, res) => {
 
 app.post('/upload-character', authenticate, upload.single('file'), async (req, res) => {
     try {
-        console.log(req.file); // Log the file details returned by Cloudinary
-        
-        const user = await User.findById(req.userId);
-        user.characterUrl = req.file.path; // Assuming req.file.path contains the Cloudinary URL
-        await user.save();
-        console.log("Character URL saved:", user.characterUrl); // Verify this log
+        console.log('File upload details:', req.file); // Log the entire file object to see what Cloudinary returns
 
-        res.json({ success: true, url: req.file.path });
+        if (!req.file || !req.file.path) {
+            return res.status(400).json({ success: false, error: 'No file uploaded or Cloudinary did not return a valid URL.' });
+        }
+
+        const user = await User.findById(req.userId);
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        user.characterUrl = req.file.path || req.file.url; // Save the correct URL field from Cloudinary
+        await user.save();
+        console.log("Character URL saved to user:", user.characterUrl); // Verify that the URL was saved
+
+        res.json({ success: true, url: user.characterUrl });
     } catch (err) {
         console.error('Error saving character:', err);
         res.status(500).json({ success: false, error: 'Error saving character' });
     }
 });
+
+
 
 app.get('/check-character-url', authenticate, async (req, res) => {
     const user = await User.findById(req.userId);
