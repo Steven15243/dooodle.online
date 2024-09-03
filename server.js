@@ -322,10 +322,10 @@ app.post('/save-character', authenticate, async (req, res) => {
 
 app.post('/upload-character', authenticate, upload.single('file'), async (req, res) => {
     try {
-        console.log('File upload details:', req.file); // Log the entire file object to see what Cloudinary returns
+        console.log('Received file details from Cloudinary:', req.file); // Log the file details
 
         if (!req.file || !req.file.path) {
-            return res.status(400).json({ success: false, error: 'No file uploaded or Cloudinary did not return a valid URL.' });
+            return res.status(400).json({ success: false, error: 'File upload failed. No file received or no path provided by Cloudinary.' });
         }
 
         const user = await User.findById(req.userId);
@@ -343,6 +343,7 @@ app.post('/upload-character', authenticate, upload.single('file'), async (req, r
         res.status(500).json({ success: false, error: 'Error saving character' });
     }
 });
+
 
 
 

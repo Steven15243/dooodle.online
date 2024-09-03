@@ -3,6 +3,7 @@ let bodyColor = 'default_character.png';
 let eyes = '';
 let mouth = '';
 
+// Function to update the character preview based on selected options
 function updateCharacter() {
     bodyColor = document.querySelector('.color-options .selected')?.dataset.color || 'default_character.png';
     eyes = document.querySelector('.eye-options .selected')?.dataset.eye || '';
@@ -28,6 +29,7 @@ function updateCharacter() {
     }
 }
 
+// Function to create options dynamically based on the type (color, eye, mouth)
 function createOptions(type, folder) {
     const container = document.querySelector(`.${type}-controls .${type}-options`);
     const files = [];
@@ -51,22 +53,25 @@ function createOptions(type, folder) {
         img.addEventListener('click', () => {
             document.querySelectorAll(`.${type}-options img`).forEach(img => img.classList.remove('selected'));
             img.classList.add('selected');
-            updateCharacter();
+            updateCharacter(); // Update the character preview after selecting a new option
         });
         container.appendChild(img);
     });
 }
 
+// Function to initialize character creation options
 function init() {
     createOptions('color', 'colours');
     createOptions('eye', 'eyes');
     createOptions('mouth', 'mouth');
 
-    updateCharacter();
+    updateCharacter(); // Initial update of the character preview
 }
 
+// Initialize the character creation process when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', init);
 
+// Handle saving the character to the user's profile
 document.getElementById('save-character').addEventListener('click', () => {
     const characterData = { bodyColor, eyes, mouth };
     const token = localStorage.getItem('token');
@@ -91,55 +96,74 @@ document.getElementById('save-character').addEventListener('click', () => {
     .catch(error => console.error('Error:', error));
 });
 
-// Load and draw each image layer onto the canvas
-const canvas = document.createElement('canvas');
-canvas.width = 200; 
-canvas.height = 200;
-const ctx = canvas.getContext('2d');
+// Load and draw each image layer onto the canvas and upload the final image to Cloudinary
+function uploadCharacterImage() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 200; 
+    canvas.height = 200;
+    const ctx = canvas.getContext('2d');
 
-const bodyColorImg = new Image();
-bodyColorImg.src = `colours/${bodyColor}`;
-bodyColorImg.onload = () => {
-    ctx.drawImage(bodyColorImg, 0, 0, canvas.width, canvas.height);
+    // Draw body color
+    const bodyColorImg = new Image();
+    bodyColorImg.src = `colours/${bodyColor}`;
+    bodyColorImg.onload = () => {
+        ctx.drawImage(bodyColorImg, 0, 0, canvas.width, canvas.height);
 
-    if (eyes) {
-        const eyesImg = new Image();
-        eyesImg.src = `eyes/${eyes}`;
-        eyesImg.onload = () => {
-            ctx.drawImage(eyesImg, 0, 0, canvas.width, canvas.height);
+        // Draw eyes
+        if (eyes) {
+            const eyesImg = new Image();
+            eyesImg.src = `eyes/${eyes}`;
+            eyesImg.onload = () => {
+                ctx.drawImage(eyesImg, 0, 0, canvas.width, canvas.height);
 
-            if (mouth) {
-                const mouthImg = new Image();
-                mouthImg.src = `mouth/${mouth}`;
-                mouthImg.onload = () => {
-                    ctx.drawImage(mouthImg, 0, 0, canvas.width, canvas.height);
+                // Draw mouth
+                if (mouth) {
+                    const mouthImg = new Image();
+                    mouthImg.src = `mouth/${mouth}`;
+                    mouthImg.onload = () => {
+                        ctx.drawImage(mouthImg, 0, 0, canvas.width, canvas.height);
+                        uploadCanvasToCloudinary(canvas); // After drawing all layers, upload to Cloudinary
+                    };
+                } else {
+                    uploadCanvasToCloudinary(canvas); // No mouth selected, upload without it
+                }
+            };
+        } else {
+            uploadCanvasToCloudinary(canvas); // No eyes selected, upload without them
+        }
+    };
+}
 
-                    canvas.toBlob((blob) => {
-                        const formData = new FormData();
-                        formData.append('file', blob, 'character.png');
+// Convert canvas to Blob and upload to Cloudinary
+function uploadCanvasToCloudinary(canvas) {
+    canvas.toBlob((blob) => {
+        const formData = new FormData();
+        formData.append('file', blob, 'character.png');
 
-                        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
-                        fetch('/upload-character', {
-                            method: 'POST',
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            },
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Character saved successfully!');
-                                window.location.href = `/profile/${localStorage.getItem('username')}`;
-                            } else {
-                                alert('Failed to save character');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-                    }, 'image/png');
-                };
+        console.log('Uploading character to Cloudinary...'); // Log before upload
+
+        fetch('/upload-character', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Upload response:', data); // Log the response from the server
+            if (data.success) {
+                alert('Character saved successfully!');
+                window.location.href = `/profile/${localStorage.getItem('username')}`;
+            } else {
+                alert('Failed to save character');
             }
-        };
-    }
-};
+        })
+        .catch(error => console.error('Error uploading character:', error));
+    }, 'image/png');
+}
+
+// Add an event listener to upload character image on save
+document.getElementById('save-character').addEventListener('click', uploadCharacterImage);
