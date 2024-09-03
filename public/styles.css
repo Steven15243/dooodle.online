@@ -602,3 +602,23 @@ body.dark-mode .comment-button:hover {
     height: 24px; /* Set desired size */
     vertical-align: middle;
 }
+
+.social-media p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.social-media a {
+    text-decoration: none;
+}
+
+.x-logo {
+    width: 40px;  /* Adjust the size of the logo */
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.x-logo:hover {
+    transform: scale(1.1);
+}

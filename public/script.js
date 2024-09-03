@@ -416,4 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleButton.textContent = '🌑'; // Set moon icon if light mode
         }
     });
+    document.querySelector('.x-logo').addEventListener('click', function() {
+        alert("You're being redirected to our X account!");
+    });
+    
 });
