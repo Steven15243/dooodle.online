@@ -52,14 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (data.characterUrl) {
                 console.log("Character URL:", data.characterUrl);
+                const profilePicture = document.getElementById('profile-picture');
+                profilePicture.innerHTML = ''; 
                 const img = document.createElement('img');
                 img.src = data.characterUrl; 
                 img.alt = 'Profile Picture';
-                profilePicture.innerHTML = ''; 
                 profilePicture.appendChild(img);
             } else {
                 console.log("No character URL found.");
-                profilePicture.innerHTML = '<img src="colours/default_character.png" alt="Default Profile Picture">'; // Fallback image
+                const profilePicture = document.getElementById('profile-picture');
+                profilePicture.innerHTML = '<img src="colours/default_character.png" alt="Default Profile Picture">'; // Use a fallback image
             }
         })
         .catch(error => {
