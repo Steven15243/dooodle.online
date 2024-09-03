@@ -36,9 +36,8 @@ const upload = multer({ storage: storage });
 
 const app = express();
 const port = process.env.PORT || 3000;
-const secretKey = process.env.SECRET_KEY; // Use environment variable
+const secretKey = process.env.SECRET_KEY;
 
-// Middleware
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 app.use(session({
@@ -47,23 +46,19 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.set('view engine', 'ejs'); // Set EJS as the templating engine
-app.set('views', path.join(__dirname, 'views')); // Set the views directory
-
-// Serve static files from the public directory
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
 
-// User schema and model
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     bio: { type: String, default: '' },
-    profilePicture: { type: String, default: '/assets/default-profile.png' } // Default profile picture path
+    profilePicture: { type: String, default: '/uploads/default-profile.png' }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -353,8 +348,8 @@ app.post('/upload-profile-picture', authenticate, profilePictureUpload.single('p
 const profilePictureStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'profile_pictures', // Separate folder for profile pictures
-        format: async (req, file) => 'png',
+        folder: 'profile_pictures',
+        format: async () => 'png',
         public_id: (req, file) => `profile-${req.userId}-${Date.now()}`
     },
 });
@@ -365,9 +360,6 @@ const profilePictureUpload = multer({ storage: profilePictureStorage });
 app.post('/save-character', authenticate, async (req, res) => {
     const { bodyColor, eyes, mouth } = req.body;
 
-    // Construct the character URL based on selected options
-    // Here we assume the front end saves and uploads the image to Cloudinary, 
-    // but if the images are combined server-side, this would differ.
     const characterUrl = `/composite-character/${bodyColor}-${eyes}-${mouth}.png`;
 
     try {
