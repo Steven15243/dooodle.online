@@ -228,49 +228,25 @@ app.get('/profile/:username', authenticate, async (req, res) => {
 
     const likes = totalLikes.length > 0 ? totalLikes[0].totalLikes : 0;
 
-    res.render('profile', {
-        username: user.username,
-        bio: user.bio,
-        likes: likes,
-        characterUrl: user.characterUrl // Add this line
-    });
-
-    // If request is an API call, return JSON
     if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+        // If the request is an AJAX request, send JSON response
         return res.json({
             username: user.username,
             bio: user.bio,
-            likes: likes
+            likes: likes,
+            characterUrl: user.characterUrl // Include the character URL in the JSON response
+        });
+    } else {
+        // Otherwise, render the EJS template
+        return res.render('profile', {
+            username: user.username,
+            bio: user.bio,
+            likes: likes,
+            characterUrl: user.characterUrl // Include the character URL for rendering
         });
     }
-
-    // Otherwise, render the EJS template
-    res.render('profile', {
-        username: user.username,
-        bio: user.bio,
-        likes: likes
-    });
 });
 
-
-
-app.put('/profile/:username', authenticate, async (req, res) => {
-    const username = req.params.username;
-    const { bio } = req.body;
-    try {
-        const user = await User.findOneAndUpdate(
-            { username },
-            { bio },
-            { new: true }
-        );
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        res.json({ user });
-    } catch (err) {
-        res.status(400).send('Error updating profile');
-    }
-});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
