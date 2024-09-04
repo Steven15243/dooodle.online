@@ -232,26 +232,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then(response => response.json()).then(doodles => {
             const doodlesDiv = document.getElementById('doodles');
             doodlesDiv.innerHTML = '';
-            doodles.forEach(doodle => {
+            doodles.reverse().forEach(doodle => { // Reverse the array to show newest first
                 const doodleItem = document.createElement('div');
                 doodleItem.classList.add('doodle-item');
-
+    
                 // Adding username with a link to the profile
                 const usernameLabel = document.createElement('div');
                 usernameLabel.classList.add('username');
                 usernameLabel.innerHTML = `Created by: <a href="/profile/${doodle.username}">${doodle.username}</a>`;
                 doodleItem.appendChild(usernameLabel);
-
+    
                 // Adding doodle image
                 const img = document.createElement('img');
                 img.src = doodle.doodleUrl;
                 doodleItem.appendChild(img);
-
+    
                 // Adding like button
                 const likeButton = document.createElement('button');
                 likeButton.className = 'like-button';
                 likeButton.innerText = `Like (${doodle.likes || 0})`;
-
+    
                 likeButton.addEventListener('click', async () => {
                     try {
                         const response = await fetch(`/doodle/${doodle._id}/like`, {
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Error liking doodle');
                     }
                 });
-
+    
                 doodleItem.appendChild(likeButton);
                 
                 // Add Comments button
@@ -281,19 +281,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 commentButton.addEventListener('click', () => {
                     loadComments(doodle._id);
                 });
-
+    
                 doodleItem.appendChild(commentButton);
-
+    
                 // Add section to display comments
                 const commentSection = document.createElement('div');
                 commentSection.classList.add('comments-section');
                 commentSection.id = `comments-${doodle._id}`;
                 doodleItem.appendChild(commentSection);
-
+    
                 doodlesDiv.appendChild(doodleItem);
             });
         });
-    }
+    }    
 
     function loadPrompt() {
         fetch('/prompt', {
