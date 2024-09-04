@@ -3,17 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doodle App</title>
+    <title>Create and Share Doodles Online | Doodle App</title>
+    
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Create, save, and share doodles online with the Doodle App. Join our community, participate in leaderboards, and showcase your creativity.">
+
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="Doodle App">
+    <meta property="og:description" content="Create, save, and share doodles online.">
+    <meta property="og:image" content="uploads/dooodle.online.png">
+    <meta property="og:url" content="https://dooodle.online">
+    <meta property="og:type" content="website">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Doodle App",
+        "url": "https://dooodle.online"
+    }
+    </script>
+
+    <!-- Link to CSS Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Google Ads Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213487904045270" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
         <header>
-            <img src="uploads/dooodle.online.png" alt="Doodle Logo" id="logo">
+            <img src="uploads/dooodle.online.png" alt="Doodle App Logo" id="logo">
             <div id="username-display"></div>
             
-            <!-- Add a new container for the auth buttons and profile/dark mode buttons -->
             <div id="auth-and-settings">
                 <div id="auth-buttons" class="centered">
                     <button id="show-register" class="auth-button">Sign Up</button>
@@ -29,6 +52,8 @@
         </header>        
         
         <main>
+            <h1>Create and Share Doodles Online</h1>
+
             <div id="login-message">You must log in to create or view doodles.</div>
             
             <form id="register-form" class="auth-form">
@@ -45,15 +70,14 @@
                 <button type="button" id="login">Login</button>
             </form>
             
-            <p id="prompt"></p>
-            
+            <h2>Your Doodle Canvas</h2>
             <div id="canvas-controls" class="centered">
                 <label for="brush-size">Brush Size:</label>
                 <input type="range" id="brush-size" min="1" max="50" value="5">
                 <label for="brush-color">Color:</label>
                 <input type="color" id="brush-color" value="#000000">
                 <button id="eraser-button">
-                    <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Eraser" />
+                    <img id="eraser-icon" src="uploads/eraser-off-icon.png" alt="Doodle Eraser Icon" />
                 </button>
             </div>
             
@@ -87,9 +111,9 @@
             <a href="privacy-policy.html">Privacy Policy</a> | 
             <a href="terms-of-service.html">Terms of Service</a>
         </footer>
-        
     </div>
 
+    <!-- Link to JavaScript File -->
     <script src="script.js"></script>
 </body>
 </html>
