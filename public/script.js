@@ -122,19 +122,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to redraw the canvas
     function redrawCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-        actions.forEach(action => {
-            context.beginPath();
-            context.strokeStyle = action.color;
-            context.lineWidth = action.size;
-            action.points.forEach((point, index) => {
-                if (index === 0) {
-                    context.moveTo(point.x, point.y);
-                } else {
-                    context.lineTo(point.x, point.y);
-                }
+        if (Array.isArray(actions) && actions.length > 0) {
+            actions.forEach(action => {
+                context.beginPath();
+                context.strokeStyle = action.color;
+                context.lineWidth = action.size;
+                action.points.forEach((point, index) => {
+                    if (index === 0) {
+                        context.moveTo(point.x, point.y);
+                    } else {
+                        context.lineTo(point.x, point.y);
+                    }
+                });
+                context.stroke();
             });
-            context.stroke();
-        });
+        }
     }
 
     canvas.addEventListener('mousedown', (event) => {
