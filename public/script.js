@@ -494,39 +494,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const canvasHeight = canvas.height;
         const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight);
         const pixels = imageData.data;
-
+    
         function matchColor(pixelPos) {
             return (pixels[pixelPos] === targetColor.r &&
                     pixels[pixelPos + 1] === targetColor.g &&
                     pixels[pixelPos + 2] === targetColor.b &&
                     pixels[pixelPos + 3] === targetColor.a);
         }
-
+    
         function colorPixel(pixelPos) {
             pixels[pixelPos] = fillColor.r;
             pixels[pixelPos + 1] = fillColor.g;
             pixels[pixelPos + 2] = fillColor.b;
             pixels[pixelPos + 3] = 255; // Full opacity
         }
-
+    
         while (pixelStack.length) {
-            const { x, y } = pixelStack.pop();
+            let { x, y } = pixelStack.pop();
             let pixelPos = (y * canvasWidth + x) * 4;
-
+    
             while (y >= 0 && matchColor(pixelPos)) {
                 y--;
                 pixelPos -= canvasWidth * 4;
             }
-
+    
             pixelPos += canvasWidth * 4;
             y++;
-
+    
             let spanLeft = false;
             let spanRight = false;
-
+    
             while (y < canvasHeight && matchColor(pixelPos)) {
                 colorPixel(pixelPos);
-
+    
                 if (x > 0) {
                     if (matchColor(pixelPos - 4)) {
                         if (!spanLeft) {
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         spanLeft = false;
                     }
                 }
-
+    
                 if (x < canvasWidth - 1) {
                     if (matchColor(pixelPos + 4)) {
                         if (!spanRight) {
@@ -548,14 +548,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         spanRight = false;
                     }
                 }
-
+    
                 y++;
                 pixelPos += canvasWidth * 4;
             }
         }
-
+    
         context.putImageData(imageData, 0, 0);
-    }
+    }    
 
     function getColorAtPixel(x, y) {
         const pixelData = context.getImageData(x, y, 1, 1).data;
