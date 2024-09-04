@@ -34,17 +34,17 @@
 <body>
     <div id="app">
         <header>
-            <img src="uploads/dooodle.online.png" alt="Doodle App Logo" id="logo">
+            <img src="uploads/dooodle.online.png" alt="Doodle App Logo" id="logo" class="fade-in">
             <div id="username-display"></div>
             
             <div id="auth-and-settings">
                 <div id="auth-buttons" class="centered">
-                    <button id="show-register" class="auth-button">Sign Up</button>
-                    <button id="show-login" class="auth-button">Login</button>
+                    <button id="show-register" class="auth-button slide-in">Sign Up</button>
+                    <button id="show-login" class="auth-button slide-in">Login</button>
                 </div>
             
                 <div id="settings-buttons" class="centered">
-                    <a href="leaderboard.html" id="leaderboard-link" style="font-size: 1.5em;">🏆</a>
+                    <a href="leaderboard.html" id="leaderboard-link" class="bounce-in">🏆</a>
                     <a href="profile.html" id="profile-link" style="display:none;">👤</a>
                     <button id="dark-mode-toggle" class="dark-mode-toggle">🌑</button>
                 </div>
@@ -52,19 +52,19 @@
         </header>        
         
         <main>
-            <h1>Your Doodle Canvas</h1>
+            <h1 class="zoom-in">Your Doodle Canvas</h1>
 
-            <div id="login-message">You must log in to create or view doodles.</div>
+            <div id="login-message" class="fade-in">You must log in to create or view doodles.</div>
             
             <form id="register-form" class="auth-form">
-                <h2>Register</h2>
+                <h2 class="slide-in">Register</h2>
                 <input type="text" id="register-username" placeholder="Username">
                 <input type="password" id="register-password" placeholder="Password">
                 <button type="button" id="register">Register</button>
             </form>
             
             <form id="login-form" class="auth-form">
-                <h2>Login</h2>
+                <h2 class="slide-in">Login</h2>
                 <input type="text" id="login-username" placeholder="Username">
                 <input type="password" id="login-password" placeholder="Password">
                 <button type="button" id="login">Login</button>
@@ -72,11 +72,11 @@
             
             <!-- Doodle Prompt -->
             <div id="doodle-prompt" class="centered">
-                <h2>What Should You Doodle Today?</h2>
+                <h2 class="slide-in">What Should You Doodle Today?</h2>
                 <p id="prompt"></p> <!-- Placeholder for dynamic prompt -->
             </div>
 
-            <div id="canvas-controls" class="centered">
+            <div id="canvas-controls" class="centered slide-in">
                 <label for="brush-size">Brush Size:</label>
                 <input type="range" id="brush-size" min="1" max="50" value="5">
                 <label for="brush-color">Color:</label>
@@ -93,21 +93,21 @@
             </div>
             
             <div id="action-buttons" class="centered">
-                <button id="save">Save Doodle</button>
-                <button id="undo">↶ Undo</button>
-                <button id="redo">↷ Redo</button>
-                <button id="share-doodle">Share</button>
-                <button id="download-doodle">Download</button>
+                <button id="save" class="button-animation">Save Doodle</button>
+                <button id="undo" class="button-animation">↶ Undo</button>
+                <button id="redo" class="button-animation">↷ Redo</button>
+                <button id="share-doodle" class="button-animation">Share</button>
+                <button id="download-doodle" class="button-animation">Download</button>
             </div>
             
             <section id="previous-doodles">
-                <h2>Previous Doodles</h2>
+                <h2 class="fade-in">Previous Doodles</h2>
                 <div id="doodles"></div>
             </section>
         </main>
         
         <footer>
-            <div class="social-media">
+            <div class="social-media fade-in">
                 <p>Find us also on:</p>
                 <a href="https://x.com/dooodleonline" target="_blank">
                     <img src="uploads/path-to-your-x-logo-image.png" alt="X Logo" class="x-logo">
