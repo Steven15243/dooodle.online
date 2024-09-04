@@ -428,5 +428,40 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.x-logo').addEventListener('click', function() {
         alert("You're being redirected to our X account!");
     });
-    
+    document.getElementById('download-doodle').addEventListener('click', () => {
+        const dataURL = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = dataURL;
+        downloadLink.download = 'doodle.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
+
+    // Share Doodle
+    document.getElementById('share-doodle').addEventListener('click', async () => {
+        const dataURL = canvas.toDataURL('image/png');
+        const blob = await (await fetch(dataURL)).blob();
+        const file = new File([blob], 'doodle.png', { type: 'image/png' });
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Check out my doodle!',
+                    files: [file],
+                    text: 'I made this doodle on DoodleApp, have a look!',
+                });
+                console.log('Doodle shared successfully!');
+            } catch (error) {
+                console.error('Error sharing doodle:', error);
+            }
+        } else {
+            alert('Web Share API is not supported in your browser.');
+        }
+    });
+
+    // Check if Web Share API is supported
+    if (!navigator.share) {
+        document.getElementById('share-doodle').style.display = 'none';
+    }
 });
