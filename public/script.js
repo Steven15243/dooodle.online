@@ -279,7 +279,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 commentButton.innerText = 'Comments';
                 commentButton.classList.add('comment-button'); // Add a class for styling
                 commentButton.addEventListener('click', () => {
-                    loadComments(doodle._id);
+                    const commentSection = document.getElementById(`comments-${doodle._id}`);
+                    
+                    if (commentSection.style.display === 'block') {
+                        // If the comments are already shown, hide them
+                        commentSection.style.display = 'none';
+                    } else {
+                        // Otherwise, load the comments and display the section
+                        loadComments(doodle._id);
+                        commentSection.style.display = 'block';
+                    }
                 });
     
                 doodleItem.appendChild(commentButton);
