@@ -139,17 +139,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     canvas.addEventListener('mousedown', (event) => {
         const { x, y } = updateCoordinates(event);
-
+    
         if (isFillToolActive) {
             const targetColor = getColorAtPixel(x, y);
             const fillColor = hexToRgb(brushColorInput.value);
             floodFill(x, y, targetColor, fillColor);
             actions.push({ type: 'fill', x, y, targetColor, fillColor });
-            undoneActions = []; // Clear redo stack when new action is made
+            undoneActions = []; // Clear redo stack when a new action is made
         } else {
             startDrawing(event);
         }
     });
+    
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
