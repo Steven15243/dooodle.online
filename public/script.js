@@ -137,7 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousedown', (event) => {
+        const { x, y } = updateCoordinates(event);
+
+        if (isFillToolActive) {
+            const targetColor = getColorAtPixel(x, y);
+            const fillColor = hexToRgb(brushColorInput.value);
+            floodFill(x, y, targetColor, fillColor);
+            actions.push({ type: 'fill', x, y, targetColor, fillColor });
+            undoneActions = []; // Clear redo stack when new action is made
+        } else {
+            startDrawing(event);
+        }
+    });
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
@@ -464,4 +476,104 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!navigator.share) {
         document.getElementById('share-doodle').style.display = 'none';
     }
+    let isFillToolActive = false;
+
+    // Event listener to toggle the fill tool
+    document.getElementById('fill-tool').addEventListener('click', () => {
+        isFillToolActive = !isFillToolActive;
+        if (isFillToolActive) {
+            canvas.style.cursor = 'url("uploads/fill-cursor.png"), auto'; // Custom cursor for fill tool
+        } else {
+            canvas.style.cursor = 'crosshair'; // Default drawing cursor
+        }
+    });
+    function floodFill(x, y, targetColor, fillColor) {
+        const pixelStack = [{ x, y }];
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight);
+        const pixels = imageData.data;
+
+        function matchColor(pixelPos) {
+            return (pixels[pixelPos] === targetColor.r &&
+                    pixels[pixelPos + 1] === targetColor.g &&
+                    pixels[pixelPos + 2] === targetColor.b &&
+                    pixels[pixelPos + 3] === targetColor.a);
+        }
+
+        function colorPixel(pixelPos) {
+            pixels[pixelPos] = fillColor.r;
+            pixels[pixelPos + 1] = fillColor.g;
+            pixels[pixelPos + 2] = fillColor.b;
+            pixels[pixelPos + 3] = 255; // Full opacity
+        }
+
+        while (pixelStack.length) {
+            const { x, y } = pixelStack.pop();
+            let pixelPos = (y * canvasWidth + x) * 4;
+
+            while (y >= 0 && matchColor(pixelPos)) {
+                y--;
+                pixelPos -= canvasWidth * 4;
+            }
+
+            pixelPos += canvasWidth * 4;
+            y++;
+
+            let spanLeft = false;
+            let spanRight = false;
+
+            while (y < canvasHeight && matchColor(pixelPos)) {
+                colorPixel(pixelPos);
+
+                if (x > 0) {
+                    if (matchColor(pixelPos - 4)) {
+                        if (!spanLeft) {
+                            pixelStack.push({ x: x - 1, y });
+                            spanLeft = true;
+                        }
+                    } else if (spanLeft) {
+                        spanLeft = false;
+                    }
+                }
+
+                if (x < canvasWidth - 1) {
+                    if (matchColor(pixelPos + 4)) {
+                        if (!spanRight) {
+                            pixelStack.push({ x: x + 1, y });
+                            spanRight = true;
+                        }
+                    } else if (spanRight) {
+                        spanRight = false;
+                    }
+                }
+
+                y++;
+                pixelPos += canvasWidth * 4;
+            }
+        }
+
+        context.putImageData(imageData, 0, 0);
+    }
+
+    function getColorAtPixel(x, y) {
+        const pixelData = context.getImageData(x, y, 1, 1).data;
+        return {
+            r: pixelData[0],
+            g: pixelData[1],
+            b: pixelData[2],
+            a: pixelData[3]
+        };
+    }
+
+    function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        return {
+            r: (bigint >> 16) & 255,
+            g: (bigint >> 8) & 255,
+            b: bigint & 255,
+            a: 255
+        };
+    }
+
 });
