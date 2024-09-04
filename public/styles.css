@@ -273,6 +273,12 @@ canvas {
     color: #555;
     margin-top: 8px;
 }
+.username {
+    font-size: 14px;
+    color: #333;
+    margin-top: 8px;
+    text-align: center;
+}
 
 /* Like Button Styles */
 .like-button {
@@ -289,25 +295,17 @@ canvas {
     justify-content: center;
 }
 
-.like-button:before {
-    content: '❤️'; /* Heart emoji */
+.like-button .heart-icon {
     font-size: 20px;
-    margin-right: 8px; /* Space between emoji and text */
+    margin-right: 8px;
 }
 
-.like-button:hover {
-    background-color: #c0392b; /* Darker red on hover */
-    transform: scale(1.05);
+.like-button .heart-icon.liked {
+    color: red;
 }
 
-.like-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-.like-button:active {
-    background-color: #a93226;
-    transform: scale(0.98);
+.like-button .like-count {
+    font-size: 16px;
 }
 
 /* Footer Styles */
@@ -467,24 +465,18 @@ footer {
     background-color: #34495e;
 }
 
-/* General Styles for Comment Button */
+/* Comment Button */
 .comment-button {
-    padding: 12px 20px; /* Increased padding for better usability */
-    background-color: #e74c3c; /* Red for comment button */
-    color: #ffffff; /* Text color */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Larger font size for readability */
-    font-weight: bold; /* Make text bold */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-top: 10px;
 }
 
-/* Button Hover State */
 .comment-button:hover {
-    background-color: #c0392b; /* Darker shade of red on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    transform: scale(1.1);
 }
 
 /* Button Focus State */
@@ -623,8 +615,6 @@ body.dark-mode .comment-button:hover {
     transform: scale(1.1);
 }
 
-/* profile.css or styles.css */
-
 #profile-picture img {
     max-width: 100%; /* Ensures the image doesn’t exceed its container’s width */
     height: auto; /* Maintains the aspect ratio of the image */
@@ -632,4 +622,17 @@ body.dark-mode .comment-button:hover {
     max-height: 200px; /* Ensures the image doesn’t exceed a maximum height */
     display: block; /* Ensures the image is displayed as a block element */
     margin: 0 auto; /* Center the image horizontally if needed */
+}
+
+.doodle-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    max-width: 200px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

@@ -257,15 +257,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 usernameLabel.innerHTML = `Created by: <a href="/profile/${doodle.username}">${doodle.username}</a>`;
                 doodleItem.appendChild(usernameLabel);
     
+                const doodleCard = document.createElement('div');
+                doodleCard.classList.add('doodle-card');
+
                 // Adding doodle image
                 const img = document.createElement('img');
                 img.src = doodle.doodleUrl;
                 doodleItem.appendChild(img);
     
-                // Adding like button
+                // Create a like button
                 const likeButton = document.createElement('button');
                 likeButton.className = 'like-button';
-                likeButton.innerText = `Like (${doodle.likes || 0})`;
+                likeButton.innerHTML = `<span class="heart-icon">❤️</span> <span class="like-count">${doodle.likes || 0}</span>`;
+
     
                 likeButton.addEventListener('click', async () => {
                     try {
@@ -278,7 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         if (response.ok) {
                             const data = await response.json();
-                            likeButton.innerText = `Like (${data.likes})`;
+                            likeButton.querySelector('.like-count').innerText = data.likes;
+                            likeButton.querySelector('.heart-icon').classList.add('liked'); // Add 'liked' class when liked
+
                         } else {
                             alert('Error liking doodle');
                         }
@@ -291,16 +297,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Add Comments button
                 const commentButton = document.createElement('button');
-                commentButton.innerText = 'Comments';
-                commentButton.classList.add('comment-button'); // Add a class for styling
+                commentButton.className = 'comment-button';
+                commentButton.innerHTML = '💬';  // Comment emoji
+
                 commentButton.addEventListener('click', () => {
                     const commentSection = document.getElementById(`comments-${doodle._id}`);
-                    
                     if (commentSection.style.display === 'block') {
-                        // If the comments are already shown, hide them
                         commentSection.style.display = 'none';
                     } else {
-                        // Otherwise, load the comments and display the section
                         loadComments(doodle._id);
                         commentSection.style.display = 'block';
                     }
@@ -312,9 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const commentSection = document.createElement('div');
                 commentSection.classList.add('comments-section');
                 commentSection.id = `comments-${doodle._id}`;
-                doodleItem.appendChild(commentSection);
-    
-                doodlesDiv.appendChild(doodleItem);
+                commentSection.style.display = 'none';  // Hide comments by default
+                doodleCard.appendChild(commentSection);
+
+                // Append the card to the doodles div
+                doodlesDiv.appendChild(doodleCard);
             });
         });
     }    
