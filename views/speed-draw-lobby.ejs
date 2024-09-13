@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Draw - Lobby</title>
+</head>
+<body>
+    <h1>Speed Draw</h1>
+    <div>
+        <h2>Create a Game</h2>
+        <button id="create-game">Create Game</button>
+    </div>
+
+    <div>
+        <h2>Join a Game</h2>
+        <input type="text" id="game-id" placeholder="Enter Game ID">
+        <button id="join-game">Join Game</button>
+    </div>
+
+    <div id="game-info" style="display:none;">
+        <p>Waiting for the host to start the game...</p>
+    </div>
+
+    <script>
+        document.getElementById('create-game').addEventListener('click', async () => {
+            const response = await fetch('/create-game', { method: 'POST' });
+            const data = await response.json();
+            window.location.href = `/game/${data.gameId}`;
+        });
+
+        document.getElementById('join-game').addEventListener('click', async () => {
+            const gameId = document.getElementById('game-id').value;
+            if (gameId) {
+                const response = await fetch(`/join-game/${gameId}`, { method: 'POST' });
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = `/game/${gameId}`;
+                } else {
+                    alert('Error joining game');
+                }
+            } else {
+                alert('Please enter a game ID');
+            }
+        });
+    </script>
+</body>
+</html>
