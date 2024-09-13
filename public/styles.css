@@ -47,8 +47,7 @@ body {
 #settings-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Space between settings buttons */
-    margin-top: 15px; /* Space above the settings buttons */
+    gap: 10px; /* Keeps a gap between buttons */
 }
 
 #app {
@@ -63,13 +62,9 @@ body {
 
 /* Header and Links */
 header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Adds space between the profile, leaderboard, and dark mode buttons */
+    position: relative;
     margin-bottom: 25px;
 }
-
 
 header a {
     margin-right: 10px;
@@ -607,14 +602,15 @@ body.dark-mode {
 }
 
 .dark-mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
     font-size: 1.5em;
     background: none;
     border: none;
-    cursor: pointer;
-    transition: color 0.3s;
-    margin-left: 10px; /* To create some space between buttons */
+    color: var(--header-color);
 }
-
 
 body.dark-mode #app {
     background: #1e1e1e; /* Darker grey background */
@@ -687,11 +683,15 @@ body.dark-mode .comment-button:hover {
 
 /* Dark Mode Toggle Button Styles */
 #dark-mode-toggle {
-    background-color: #000; /* Black background for light mode */
-    color: #fff; /* White icon */
+    position: static; /* Remove absolute positioning */
+    background-color: #000;
+    color: #fff;
     border-radius: 50%;
     padding: 10px 15px;
-    font-size: 1.5em; /* Adjust size as needed */
+    font-size: 1.5em;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
 }
 
 #dark-mode-toggle.dark {
