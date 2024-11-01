@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const eraserButton = document.getElementById('eraser-button');
     const eraserIcon = document.getElementById('eraser-icon');
 
+    const musicToggle = document.getElementById("music-toggle");
+    const backgroundMusic = document.getElementById("background-music");
+    
     // Set default brush size and color
     let brushSize = parseInt(brushSizeInput.value, 10);
     let brushColor = brushColorInput.value;
@@ -22,6 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
     context.lineWidth = brushSize;
     context.strokeStyle = brushColor;
 
+    backgroundMusic.play();
+
+    // Event listener for mute/unmute functionality
+    musicToggle.addEventListener("click", () => {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play();
+            musicToggle.textContent = "🔊 Mute";
+        } else {
+            backgroundMusic.pause();
+            musicToggle.textContent = "🔇 Unmute";
+        }
+    });
     // Update brush size and color
     brushSizeInput.addEventListener('input', () => {
         brushSize = parseInt(brushSizeInput.value, 10);
