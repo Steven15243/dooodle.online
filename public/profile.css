@@ -59,13 +59,21 @@ button:hover {
     background-color: #45a049;
 }
 
+.edit-bio {
+    margin-top: 20px;
+    text-align: center;
+    padding: 0 10px; /* Add padding to ensure it doesn't touch the edges */
+}
+
 .edit-bio textarea {
     width: 100%;
+    max-width: 400px; /* Set a max-width for better control */
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
     margin-top: 10px;
     resize: none;
+    box-sizing: border-box; /* Ensures padding is included within the width */
 }
 
 .edit-bio button {
