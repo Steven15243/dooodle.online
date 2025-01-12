@@ -1,0 +1,92 @@
+/* profile.css */
+
+body {
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.profile-container {
+    background-color: #fff;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1, h2 {
+    color: #555;
+    font-family: 'Roboto', sans-serif;
+}
+
+#profile-picture {
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 15px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#profile-picture img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+#profile-bio, #profile-likes {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.edit-bio {
+    margin-top: 20px;
+    text-align: center;
+    padding: 0 10px; /* Add padding to ensure it doesn't touch the edges */
+}
+
+.edit-bio textarea {
+    width: 100%;
+    max-width: 400px; /* Set a max-width for better control */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    resize: none;
+    box-sizing: border-box; /* Ensures padding is included within the width */
+}
+
+.edit-bio button {
+    margin-top: 10px;
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-bio button:hover {
+    background-color: #0056b3;
+}
