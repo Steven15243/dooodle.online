@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let brushColor = brushColorInput.value;
     let isEraserActive = false; // Track eraser state
 
+    const aboutButton = document.getElementById('about-creator-button');
+const modal = document.getElementById('about-creator-modal');
+const closeModal = document.getElementById('close-modal');
+
     // Initialize context with default brush settings
     context.lineWidth = brushSize;
     context.strokeStyle = brushColor;
@@ -578,5 +582,21 @@ document.addEventListener('DOMContentLoaded', () => {
             a: 255
         };
     }
+        // Show the modal when the button is clicked
+    aboutButton.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    // Close the modal when the close button is clicked
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close the modal when clicking outside the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 
 });
