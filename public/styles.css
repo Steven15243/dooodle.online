@@ -801,3 +801,21 @@ body.dark-mode .comment-button:hover {
     font-weight: bold;
     cursor: pointer;
 }
+
+/* Button styling for 'More Information' */
+#more-info-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #007bff; /* Blue background */
+    color: #fff; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#more-info-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
